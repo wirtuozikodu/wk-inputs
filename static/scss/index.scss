@@ -1,0 +1,38 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,700;1,400;1,700&display=swap");
+
+@function rgba-to-rgb($rgba, $background: #fff) {
+    @return mix(rgb(red($rgba), green($rgba), blue($rgba)), $background, alpha($rgba) * 100%);
+}
+
+@import "./colors";
+
+$FONT_WEIGHT_REGULAR: 400;
+$FONT_WEIGHT_BOLD: 700;
+
+* {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+    outline: none;
+}
+
+html {
+    font-size: 15px;
+    line-height: 24px;
+
+    font-family: "Poppins", sans-serif;
+    font-display: swap;
+    font-weight: $FONT_WEIGHT_REGULAR;
+    color: $SECONDARY;
+
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+
+    min-width: 320px;
+    overflow-x: hidden;
+}
+
+@import "./components/index";

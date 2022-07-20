@@ -1,0 +1,4 @@
+RewriteEngine on
+RewriteCond %{REQUEST_URI} !^(/static)
+RewriteCond %{REQUEST_URI} !^(index\.php|robots\.txt|sitemap\.xml)
+RewriteRule ^(.*)$ index.php [L]

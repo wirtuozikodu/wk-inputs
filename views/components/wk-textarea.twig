@@ -1,0 +1,70 @@
+{% extends 'components/wk-input.twig' %}
+
+{% block input_label %}
+    {% block label %}{% endblock %}
+{% endblock %}
+
+{% block main %}
+<div 
+    class="wk-textarea {{ disabled is same as(true) ? 'wk-textarea--disabled' }}"
+    data-inputid="{{ id }}"
+>
+
+    {% if block('prepend') is defined  %}
+    <div class="wk-textarea__prepend">
+        {{ block('prepend')|raw }}
+    </div>
+    {% endif %}
+    {% if prefix is defined and prefix != '' %}
+    <div class="wk-textarea__prefix">
+        {{ prefix }}
+    </div>
+    {% endif %}
+
+    <div 
+        class="wk-textarea__tfield"
+        tabindex="0"
+        data-inputid="{{ id }}"
+    >
+        <textarea
+            class="wk-textarea__input"
+            id="{{ id }}"
+            {{ disabled is same as(true) ? 'disabled' : '' }}
+            name="{{ name }}"
+            rows="{{ rows is defined ? rows : 5 }}"
+            data-autogrow="{{ autogrow is same as(true) ? 'true' : 'false' }}"
+        >{{ value }}</textarea>
+        <div 
+            class="wk-textarea__placeholder"
+            data-inputid="{{ id }}"
+        >
+            {{ placeholder }}
+        </div>
+    </div>
+
+    {% if suffix is defined and suffix != '' %}
+    <div class="wk-textarea__suffix">
+        {{ suffix }}
+    </div>
+    {% endif %}
+    {% if block('append') is defined  %}
+    <div class="wk-textarea__append">
+        {{ block('append')|raw }}
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block input_hint %}
+    {% block hint %}{% endblock %}
+{% endblock %}
+
+{% block scripts %}
+<script>
+    (function(){
+        window.wkInputs['{{ id }}'] = new WkTextarea({
+            el: document.getElementById('{{ id }}')
+        });
+    })();
+</script>
+{% endblock %}

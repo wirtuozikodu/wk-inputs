@@ -1,0 +1,44 @@
+{% extends 'components/wk-input.twig' %}
+
+{% block main %}
+<div
+    class="wk-radio {{ disabled is same as(true) ? 'wk-radio--disabled' }}"
+    data-inputid="{{ id }}"
+    data-name="{{ name }}"
+>
+    <button 
+        class="wk-radio-button {{ disabled is same as(true) ? 'wk-radio-button--disabled' }}"
+        {{ disabled is same as(true) ? 'disabled' : '' }}
+        id="{{ id }}"
+    >
+        <div class="wk-radio-button__fill"></div>
+        <div class="wk-radio-button__icon"></div>
+    </button>
+
+    {% if block('label') is defined  %}
+    <div 
+        class="wk-radio__label"
+        data-inputid="{{ id }}"
+    >
+        {{ block('label')|raw }}
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block input_hint %}
+    {% block hint %}{% endblock %}
+{% endblock %}
+
+{% block scripts %}
+<script>
+    (function(){
+        window.wkInputs['{{ id }}'] = new WkRadio({
+            el: document.getElementById('{{ id }}'),
+            true_value: '{{ trueValue }}',
+            value: '{{ value }}',
+            name: '{{ name }}'
+        });
+    })();
+</script>
+{% endblock %}

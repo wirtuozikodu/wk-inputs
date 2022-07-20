@@ -1,0 +1,55 @@
+<div 
+    class="wk-input"
+    data-inputid="{{ id }}" 
+>
+    {% if block('input_label') is defined  %}
+    <label 
+        for="{{ id }}" 
+        class="wk-input__label"
+    >
+        <div class="wk-input__label-content">
+            {{ block('input_label')|raw }}
+        </div>
+        {% if showAsterisk %}
+        <span class="wk-input__asterisk">
+            *
+        </span>
+        {% endif %}
+    </label>
+    {% endif %}
+    <div 
+        class="wk-input__main"
+        ref="main"
+    >
+        {% block main %}
+            Main input el
+        {% endblock %}
+    </div>
+    <div class="wk-input__messages">
+        {% if block('input_hint') is defined %}
+        <div 
+            class="wk-input__message wk-input__hint" 
+            data-input="{{ id }}"
+        >
+            {{ block('input_hint')|raw }}
+        </div>
+        {% endif %}
+        <div 
+            class="wk-input__message wk-input__errormsg" 
+            data-input="{{ id }}"
+        >
+            {{ defaultErrorMsg }}    
+        </div> 
+        {% if counterValue is defined %}
+        <div 
+            class="wk-input__counter"
+            data-input="{{ id }}"
+        >
+            <span class="wk-input__countervalue" data-input="{{ id }}">0</span>/{{ counterValue }}
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+{# SKRYPTY #}
+{% block scripts %}{% endblock %}

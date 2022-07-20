@@ -1,0 +1,7 @@
+static/uploads/*
+static/filemanager/*
+/cache
+.env
+.env.production
+/utils
+error.log

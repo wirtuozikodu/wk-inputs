@@ -1,0 +1,69 @@
+{% extends 'components/wk-input.twig' %}
+
+{% block input_label %}
+    {% block label %}{% endblock %}
+{% endblock %}
+
+{% block main %}
+<div 
+    class="wk-select {{ disabled is same as(true) ? 'wk-select--disabled' }}"
+    tabindex="0"
+    data-inputid="{{ id }}"
+> 
+
+    {% if prefix is defined and prefix != '' %}
+    <div class="wk-select__prefix">
+        {{ prefix }}
+    </div>
+    {% endif %}
+
+    <div 
+        class="wk-select__sfield"
+        data-inputid="{{ id }}"
+    >
+        <div 
+            class="wk-select__selection"
+            id="{{ id }}"
+            data-value="{{ value }}"
+            data-disabled="{{ disabled }}"
+            data-item-text="{{ itemText }}"
+            data-item-value="{{ itemValue }}"
+            data-item-disabled="{{ itemDisabled }}"
+        ></div>
+        <div 
+            class="wk-select__placeholder"
+            data-inputid="{{ id }}"
+        >
+            {{ placeholder }}
+        </div>
+    </div>
+
+    {% if suffix is defined and suffix != '' %}
+    <div class="wk-select__suffix">
+        {{ suffix }}
+    </div>
+    {% endif %}
+
+    <div class="wk-select__icon" data-inputid="{{ id }}">
+        <svg style="width:24px;height:24px" viewBox="0 0 24 24">
+            <path fill="currentColor" d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z" />
+        </svg>
+    </div>
+
+</div>
+{% endblock %}
+
+{% block input_hint %}
+    {% block hint %}{% endblock %}
+{% endblock %}
+
+{% block scripts %}
+<script>
+    (function(){
+        window.wkInputs['{{ id }}'] = new WkSelect({
+            el: document.getElementById('{{ id }}'),
+            items: {{ items is defined ? ("JSON.parse('" ~ items|json_encode ~ "')")|raw : "undefined" }}
+        });
+    })();
+</script>
+{% endblock %}

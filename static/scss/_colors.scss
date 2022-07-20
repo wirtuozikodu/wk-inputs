@@ -1,0 +1,46 @@
+$PRIMARY: #FFA300;
+$SECONDARY: #353129;
+$SUCCESS: #66E266;
+$ERROR: #FF7572;
+
+$PRIMARY_D10: rgba-to-rgb(rgba($PRIMARY, .9), $SECONDARY);
+$PRIMARY_D20: rgba-to-rgb(rgba($PRIMARY, .8), $SECONDARY);
+$PRIMARY_D30: rgba-to-rgb(rgba($PRIMARY, .7), $SECONDARY);
+$PRIMARY_D40: rgba-to-rgb(rgba($PRIMARY, .6), $SECONDARY);
+$PRIMARY_D50: rgba-to-rgb(rgba($PRIMARY, .5), $SECONDARY);
+$PRIMARY_D60: rgba-to-rgb(rgba($PRIMARY, .4), $SECONDARY);
+$PRIMARY_D70: rgba-to-rgb(rgba($PRIMARY, .3), $SECONDARY);
+$PRIMARY_D80: rgba-to-rgb(rgba($PRIMARY, .2), $SECONDARY);
+$PRIMARY_D90: rgba-to-rgb(rgba($PRIMARY, .1), $SECONDARY);
+
+$PRIMARY_L10: rgba-to-rgb(rgba($PRIMARY, .9), #fff);
+$PRIMARY_L20: rgba-to-rgb(rgba($PRIMARY, .8), #fff);
+$PRIMARY_L30: rgba-to-rgb(rgba($PRIMARY, .7), #fff);
+$PRIMARY_L40: rgba-to-rgb(rgba($PRIMARY, .6), #fff);
+$PRIMARY_L50: rgba-to-rgb(rgba($PRIMARY, .5), #fff);
+$PRIMARY_L60: rgba-to-rgb(rgba($PRIMARY, .4), #fff);
+$PRIMARY_L70: rgba-to-rgb(rgba($PRIMARY, .3), #fff);
+$PRIMARY_L80: rgba-to-rgb(rgba($PRIMARY, .2), #fff);
+$PRIMARY_L90: rgba-to-rgb(rgba($PRIMARY, .1), #fff);
+
+
+$SECONDARY_D10: rgba-to-rgb(rgba($SECONDARY, .9), #000);
+$SECONDARY_D20: rgba-to-rgb(rgba($SECONDARY, .8), #000);
+$SECONDARY_D30: rgba-to-rgb(rgba($SECONDARY, .7), #000);
+$SECONDARY_D40: rgba-to-rgb(rgba($SECONDARY, .6), #000);
+$SECONDARY_D50: rgba-to-rgb(rgba($SECONDARY, .5), #000);
+$SECONDARY_D60: rgba-to-rgb(rgba($SECONDARY, .4), #000);
+$SECONDARY_D70: rgba-to-rgb(rgba($SECONDARY, .3), #000);
+$SECONDARY_D80: rgba-to-rgb(rgba($SECONDARY, .2), #000);
+$SECONDARY_D90: rgba-to-rgb(rgba($SECONDARY, .1), #000);
+
+$SECONDARY_L10: rgba-to-rgb(rgba($SECONDARY, .9), #fff);
+$SECONDARY_L20: rgba-to-rgb(rgba($SECONDARY, .8), #fff);
+$SECONDARY_L30: rgba-to-rgb(rgba($SECONDARY, .7), #fff);
+$SECONDARY_L40: rgba-to-rgb(rgba($SECONDARY, .6), #fff);
+$SECONDARY_L50: rgba-to-rgb(rgba($SECONDARY, .5), #fff);
+$SECONDARY_L60: rgba-to-rgb(rgba($SECONDARY, .4), #fff);
+$SECONDARY_L70: rgba-to-rgb(rgba($SECONDARY, .3), #fff);
+$SECONDARY_L80: rgba-to-rgb(rgba($SECONDARY, .2), #fff);
+$SECONDARY_L90: rgba-to-rgb(rgba($SECONDARY, .1), #fff);
+$SECONDARY_L95: rgba-to-rgb(rgba($SECONDARY, .05), #fff);

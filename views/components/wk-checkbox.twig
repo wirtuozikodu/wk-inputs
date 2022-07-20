@@ -1,0 +1,48 @@
+{% extends 'components/wk-input.twig' %}
+
+{% block main %}
+<div 
+    class="wk-checkbox {{ disabled is same as(true) ? 'wk-checkbox--disabled' }}"
+    data-inputid="{{ id }}"
+    data-name="{{ name }}"
+>
+    <button 
+        class="wk-checkbox-button {{ disabled is same as(true) ? 'wk-checkbox-button--disabled' }}"
+        {{ disabled is same as(true) ? 'disabled' : '' }}
+        id="{{ id }}"
+    >
+        <div class="wk-checkbox-button__fill"></div>
+        <svg class="wk-checkbox-button__icon" width="12" height="10" viewBox="0 0 12 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M1 6.25L3.5 8.75L11 1.25" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+    </button>
+
+    {% if block('label') is defined  %}
+    <div 
+        class="wk-checkbox__label"
+        data-inputid="{{ id }}"
+    >
+        {{ block('label')|raw }}
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block input_hint %}
+    {% block hint %}{% endblock %}
+{% endblock %}
+
+{% block scripts %}
+<script>
+    (function(){
+        window.wkInputs['{{ id }}'] = new WkCheckbox({
+            el: document.getElementById('{{ id }}'),
+            true_value: '{{ trueValue is defined ? trueValue : "true" }}',
+            false_value: '{{ falseValue is defined ? falseValue : "false" }}',
+            multiple: {{ multiple is same as (true) ? 'true' : 'false' }},
+            value: '{{ value }}',
+            name: '{{ name }}'
+        });
+    })();
+</script>
+{% endblock %}

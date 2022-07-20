@@ -1,0 +1,96 @@
+.wk-textarea {
+    width: 100%;
+    display: flex;
+    align-items: center;
+
+    padding: 4px 12px;
+    border: 1px solid rgba-to-rgb(rgba($SECONDARY, 0.25), #fff);
+    border-radius: 4px;
+
+    &--focused {
+        border-color: $PRIMARY;
+        box-shadow: 0px 0px 0px 2px rgba($PRIMARY, 0.2);
+    }
+
+    &--invalid {
+        border-color: $ERROR;
+        color: $ERROR;
+
+        &.wk-textarea--focused {
+            box-shadow: 0px 0px 0px 2px rgba($ERROR, 0.2);
+        }
+
+        .wk-textarea__tfield {
+            color: $SECONDARY;
+        }
+    }
+
+    &--disabled {
+        border-color: rgba-to-rgb(rgba($SECONDARY, 0.1), #fff);
+        background-color: rgba-to-rgb(rgba($SECONDARY, 0.05), #fff);
+        color: rgba-to-rgb(rgba($SECONDARY, 0.4), #fff);
+        cursor: not-allowed;
+    }
+
+    &__prepend,
+    &__append,
+    &__prefix,
+    &__suffix {
+        flex-shrink: 0;
+    }
+
+    &__prepend {
+        padding-right: 8px;
+    }
+    &__append {
+        padding-left: 8px;
+    }
+
+    &__prefix {
+        padding-right: 4px;
+    }
+    &__suffix {
+        padding-left: 4px;
+    }
+
+    &__tfield {
+        padding: 9px 0;
+        flex-grow: 1;
+        position: relative;
+        outline: none;
+    }
+
+    &__input {
+        display: block;
+        width: 100%;
+        height: 100%;
+        border: none;
+        outline: none;
+        font-family: inherit;
+        color: inherit;
+        font-size: 15px;
+        line-height: 22px;
+        padding: 0;
+        resize: none;
+        overflow-y: auto;
+        background-color: transparent;
+
+        &:disabled {
+            color: inherit;
+        }
+    }
+
+    &__placeholder {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        line-height: 40px;
+        vertical-align: middle;
+        color: rgba-to-rgb(rgba($SECONDARY, 0.5), #fff);
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+}

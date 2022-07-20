@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WK-Inputs</title>
+    <link rel="stylesheet" href="/static/css/index.min.css">
+</head>
+<body>
+    <script src="/static/js/wk-inputs.js"></script>
+
+    <div style="padding: 64px; max-width: 600px; margin: 0 auto;">
+        <h1>WK-Inputs</h1>
+        {% embed 'components/wk-text-field.twig' with {
+            showAsterisk: true,
+            defaultErrorMsg: 'Proszę o prawidłowe wypełnienie tego pola',
+            counterValue: 31,
+            id: 'text_field',
+            disabled: false,
+            name: 'name',
+            value: '',
+            placeholder: 'Text Field',
+            prefix: 'Prefix:',
+            suffix: 'Suffix'
+        } only %}
+            {% block label %}
+                Label inputa
+            {% endblock %}
+            {% block hint %}
+                Pomocna wskazówka
+            {% endblock %}
+            {% block prepend %}
+                PREPEND SLOT
+            {% endblock %}
+            {% block append %}
+                APPEND SLOT
+            {% endblock %}
+        {% endembed %}
+
+        <br>
+        <br>
+
+        {% embed 'components/wk-textarea.twig' with {
+            showAsterisk: true,
+            defaultErrorMsg: 'Proszę o prawidłowe wypełnienie tego pola',
+            counterValue: 31,
+            id: 'textarea',
+            disabled: false,
+            name: 'message',
+            value: '',
+            placeholder: 'Text Area',
+            prefix: 'Prefix:',
+            suffix: 'Suffix',
+            rows: 4,
+            autogrow: false
+        } only %}
+            {% block label %}
+                Label textarea
+            {% endblock %}
+            {% block hint %}
+                Pomocna wskazówka
+            {% endblock %}
+            {% block prepend %}
+                PREPEND SLOT
+            {% endblock %}
+            {% block append %}
+                APPEND SLOT
+            {% endblock %}
+        {% endembed %}
+
+        <br>
+        <br>
+
+        {% embed 'components/wk-radio.twig' with {
+            defaultErrorMsg: 'Proszę o prawidłowe wypełnienie tego pola',
+            id: 'radio1',
+            disabled: false,
+            name: 'radio',
+            value: '',
+            trueValue: '1'
+        } only %}
+            {% block label %}
+                Label radio 1
+            {% endblock %}
+            {% block hint %}
+                hint radio1
+            {% endblock %}
+        {% endembed %}
+        {% embed 'components/wk-radio.twig' with {
+            defaultErrorMsg: 'Proszę o prawidłowe wypełnienie tego pola',
+            id: 'radio2',
+            disabled: true,
+            name: 'radio',
+            value: '',
+            trueValue: '2'
+        } only %}
+            {% block label %}
+                Label radio 2
+            {% endblock %}
+            {% block hint %}
+                hint radio2
+            {% endblock %}
+        {% endembed %}
+        {% embed 'components/wk-radio.twig' with {
+            defaultErrorMsg: 'Proszę o prawidłowe wypełnienie tego pola',
+            id: 'radio3',
+            disabled: false,
+            name: 'radio',
+            value: '',
+            trueValue: '3'
+        } only %}
+            {% block label %}
+                Label radio 3
+            {% endblock %}
+            {% block hint %}
+                hint radio3
+            {% endblock %}
+        {% endembed %}
+
+        <br>
+        <br>
+
+        {% embed 'components/wk-checkbox.twig' with {
+            defaultErrorMsg: 'Proszę o prawidłowe wypełnienie tego pola',
+            id: 'cbox1',
+            disabled: false,
+            name: 'cbox',
+            value: 'nie',
+            trueValue: 'tak',
+            falseValue: 'nie'
+        } only %}
+            {% block label %}
+                checbox radio 1
+            {% endblock %}
+            {% block hint %}
+                hint checkbox1
+            {% endblock %}
+        {% endembed %}
+
+        <br>
+        <br>
+
+        {% embed 'components/wk-checkbox.twig' with {
+            defaultErrorMsg: 'Proszę o prawidłowe wypełnienie tego pola',
+            id: 'cbox2',
+            disabled: false,
+            name: 'cmulti',
+            value: '',
+            trueValue: 'pies',
+            multiple: true
+        } only %}
+            {% block label %}
+                checbox label 2
+            {% endblock %}
+            {% block hint %}
+                hint checkbox 2
+            {% endblock %}
+        {% endembed %}
+        {% embed 'components/wk-checkbox.twig' with {
+            defaultErrorMsg: 'Proszę o prawidłowe wypełnienie tego pola',
+            id: 'cbox3',
+            disabled: false,
+            name: 'cmulti',
+            value: '',
+            trueValue: 'krowa',
+            multiple: true
+        } only %}
+            {% block label %}
+                checbox label 3
+            {% endblock %}
+            {% block hint %}
+                hint checkbox 3
+            {% endblock %}
+        {% endembed %}
+        {% embed 'components/wk-checkbox.twig' with {
+            defaultErrorMsg: 'Proszę o prawidłowe wypełnienie tego pola',
+            id: 'cbox4',
+            disabled: false,
+            name: 'cmulti',
+            value: '',
+            trueValue: 'kot',
+            multiple: true
+        } only %}
+            {% block label %}
+                checbox label 4
+            {% endblock %}
+            {% block hint %}
+                hint checkbox 4
+            {% endblock %}
+        {% endembed %}
+
+        <br>
+        <br>
+
+        {% embed 'components/wk-select.twig' with {
+            showAsterisk: true,
+            defaultErrorMsg: 'Proszę o prawidłowe wypełnienie tego pola',
+            id: 'select',
+            disabled: false,
+            value: '',
+            placeholder: 'Select',
+            prefix: 'Prefix:',
+            suffix: 'Suffix',
+            itemText: 'text',
+            itemValue: 'value',
+            itemDisabled: 'disabled',
+            items: [
+                {
+                    text: 'France',
+                    value: 'fr'
+                },
+                {
+                    text: 'Germany',
+                    value: 'de'
+                },
+                {
+                    text: 'Poland',
+                    value: 'pl'
+                },
+                {
+                    text: "United Kingdom",
+                    value: "uk"
+                },
+                {
+                    text: 'Ukraine',
+                    value: 'ua'
+                },
+                {
+                    text: 'Russia',
+                    value: 'ru'
+                },
+                {
+                    text: 'Lithuania',
+                    value: 'lt',
+                    disabled: true
+                },
+                {
+                    text: 'Slovakia',
+                    value: 'sk'
+                },
+            ]
+        } only %}
+            {% block label %}
+                Label selecta
+            {% endblock %}
+            {% block hint %}
+                Pomocna wskazówka
+            {% endblock %}
+        {% endembed %}
+    </div>
+
+    <script>
+        window.wkInputs.text_field.on('keydown', function(e){
+            console.log(e);
+        });
+
+        window.wkInputs.radio3.on('change', function(e){
+            console.log(e);
+        });
+
+        window.wkInputs.cbox1.on('change', function(e){
+            console.log(e);
+        });
+        window.wkInputs.cbox2.on('change', function(e){
+            console.log(e);
+        });
+
+        window.wkInputs.select.on('change', function(e){
+            console.log(e);
+        });
+        window.wkInputs.select.wkInput.addRule(function(v){
+            return v == 'pl';
+        })
+    </script>
+</body>
+</html>
