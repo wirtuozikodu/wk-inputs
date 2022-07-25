@@ -15,6 +15,11 @@ Kolekcja interaktywnych komponentów formularza w formie komponentów Twig i w o
 	- [Propsy](#wktextarea-propsy)
 	- [Sloty](#wktextarea-sloty)
 	- [Metody](#wktextarea-metody)
+- [WkRadio](#wkradio)
+	- [Propsy](#wkradio-propsy)
+	- [Sloty](#wkradio-sloty)
+	- [Metody](#wkradio-metody)
+	- [Metody grupy](#wkradio-metody-grupy)
 
 <h2 id="informacje-ogolne">Informacje ogólne</h2>
 
