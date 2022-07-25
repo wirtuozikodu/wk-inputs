@@ -11,6 +11,10 @@ Kolekcja interaktywnych komponentów formularza w formie komponentów Twig i w o
 	- [Propsy](#wktextfield-propsy)
 	- [Sloty](#wktextfield-sloty)
 	- [Metody](#wktextfield-metody)
+- [WkTextarea](#wktextarea)
+	- [Propsy](#wktextarea-propsy)
+	- [Sloty](#wktextarea-sloty)
+	- [Metody](#wktextarea-metody)
 
 <h2 id="informacje-ogolne">Informacje ogólne</h2>
 
@@ -24,7 +28,34 @@ W jego kompetencjach jest otrzymywanie reguł walidacji oraz walidowanie wartoś
  5. Inicjalizacja komponentów od strony JavaScript jest w pełni automatyczna i nie wymaga podejmowania żadnych akcji.
  6. Każdy komponent **musi** posiadać nadane **unikalne ID**. Pod tą wartością zostanie zarejestrowany w obiekcie `wkInputs`. W przypadku wielokrotnego użycia tego samego ID skonfliktowane komponenty nie będą działały poprawnie.
  7. Komponenty pracujące w grupie **muszą** mieć zdefiniowany atrybut `name`, inaczej nie zostaną poprawnie zarejestrowane, a ich praca nie będzie synchronizowana grupowo.
- 8. Z poziomu Twig każdy komponent wstawiamy jako `embed`, do którego można przekazać dane w formie propsów (`with {} only`) oraz w formie slotów (elementy `{% block %}`), na przykład: **![](https://lh4.googleusercontent.com/8LOJXhVgOr0pqbqwHd5gA6kRcKXxYZ-yXqp9_aX4Bw2KvzoUvyocxi4CspZCcVovQWU5YLzENHCy-V9KCBn5rAB9cRf5Pc2myjp0jJpS3P0XCQ5OKArYxyoa6NnlYki79isSrdKRteTO4cT7A-khPw)**
+ 8. Z poziomu Twig każdy komponent wstawiamy jako `embed`, do którego można przekazać dane w formie propsów (`with {} only`) oraz w formie slotów (elementy `{% block %}`), na przykład: 
+```twig
+{% embed 'components/wk-test-field.twig' with {
+	showAsterisk: true,
+	defaultErrorMessage: 'Wprowadź wartość',
+	counterValue: 20,
+	id: 'cf_name',
+	type: 'text',
+	disabled: false,
+	name: 'testname',
+	value: 'Domyślna zawartość',
+	placeholder: 'Wpisz coś...',
+	prefix: '+48',
+	suffix: 'PLN'
+} only %}
+	{% block label %}
+		Zawartość labela
+	{% endblock %}
+
+	{% block prepend %}
+		Wartość poprzedzająca pole
+	{% endblock %}
+
+	{% block hint %}
+		Wskazówka
+	{% endblock %}
+{% endembed %}
+```
  9. Informacje o dostępnych propsach, slotach i metodach wymienione są w dokumentacji poszczególnych komponentów.
 
 <h2 id="walidacja">Walidacja</h2>
@@ -34,7 +65,15 @@ Każdy komponent posiada w swoim obiekcie zagnieżdżony obiekt WkInput, który 
 
 Walidacja bazuje na funkcjach walidujących (walidatorach), które w momencie wykonywania testów jako argument otrzymają aktualną wartość danego inputa. Ich zadaniem jest zwrócić wartość `true`, jeżeli wszystko jest w porządku i zawartość inputa jest poprawna. Każda wartość inna niż `true` będzie traktowana jako informacja o błędzie. Jeżeli zostanie zwrócony `string`, to zostanie on wykorzystany jako wiadomość o błędzie. Dzięki temu można zwracać różne wiadomości z różnych walidatorów. Jeżeli walidator nie zwróci własnej wiadomości o błędzie wyświetlona zostanie wiadomość domyślna (przekazana przez odpowiedni props) lub nie zostanie wyświetlona żadna wiadomość, jedynie input przejdzie w wizualny stan błędu.
 
-Przykładowa funkcja walidująca:  **![](https://lh6.googleusercontent.com/0G4MAp1Oq4HcbgHv9gKzUAkz8YDVYSP6tSwSZpSPfdQ_T1Wu6GRgM0pBUnI72FSSbJtNAUXeogcrroU75j57hcrj1gWFZFh6M2kySTFIF3cA_HpgRJTXfDDt4D7mq_TaZtEq71cCuvQvy41m8iJB5Q)**
+Przykładowa funkcja walidująca:
+```javascript
+function(value) {
+	if(!value || value.length == 0) return 'To pole jest wymagane';
+	if(value.length > 31) return 'Wprowadź maksymalnie 31 znaków';
+	if(!(/^[A-Za-z0-9_-]{1,31}$/).test(value)) return 'Nie spełniono wymagań';
+	return true;
+}
+```
 
 Do każdego inputa można przekazać wiele walidatorów, zostaną one każdorazowo wywołane w kolejności ich zarejestrowania. Jeżeli którykolwiek z walidatorów zwróci błąd, walidacja jest przerywana (kolejne walidatory nie zostaną wywołane).
 
@@ -43,5 +82,125 @@ Regułami walidacji można zarządzać poprzez wykorzystanie metod zagnieżdżon
  - `setRules(rules)` - umożliwia zdefiniowanie na nowo całej tablicy testów dla danego inputa; jako argument można przekazać funkcję anonimową lub tablicę funkcji
  - `addRule(rule)` - umożliwia dodanie kolejnej reguły do zestawu reguł danego inputa; jako argument należy podać funkcję anonimową
  - `clearRules()` - umożliwia usunięcie wszystkich walidatorów zdefiniowanych dla danego inputa
+ 
+ Przykładowy sposób dodania reguły walidacji do inputa o ID user_name oraz sprawdzenia poprawności jego zawartości:
+```javascript
+wkInputs.user_name.wkInput.addRule(
+	function(v){
+		if(!v || v.length == 0) return 'Pole nie może być puste!';
+		return true;
+	}
+);
+wkInputs.user_name.validate(); // true/false
+```
 
 <h2 id="wktextfield">WkTextField</h2>
+Komponent prostego pola tekstowego (text, password, number, itd.).
+
+<h3 id="wktextfield-propsy">Dostępne propsy</h3>
+
+ - `showAsterisk` **(boolean)** - decyduje o tym, czy pokazać na końcu elementu label czerwoną gwiazdkę
+ - `defaultErrorMsg` **(string)** - domyślna wiadomość błędu, jaka ma zostać wyświetlona, gdy funkcja walidująca nie zwróci innego komunikatu
+ - `counterValue` **(Integer)** - wartość licznika limitu znaków. Sam licznik nie zapewnia żadnej walidacji, informuje tylko o liczbie znaków w wartości inputa
+ - `id` **(string)** - ID elementu, musi być unikalne
+ - `type` **(string)** - typ inputa, jeden z typów elementu `<input>` w HTML
+ - `disabled` **(boolean)** - flaga decydująca o tym, czy input na start będzie wyłączony czy nie
+ - `name` **(string)** - nazwa do przekazania do atrybutu HTML name inputa
+ - `value` **(string)** - zawartość startowa inputa
+ - `placeholder` **(string)** - opcjonalny tekst wyświetlany, gdy input jest pusty
+ - `prefix` **(string)** - stały tekst wyświetlany tuż przed polem tekstowym
+ - `suffix` **(string)** - stały tekst wyświetlany tuż za polem tekstowym
+ 
+ <h3 id="wktextfield-sloty">Dostępne sloty</h3>
+ 
+ - `label` - pozwala na przekazanie kodu HTML, który ma zostać umieszczony jako label pola tekstowego
+ - `prepend` - pozwala na przekazanie kodu HTML, który ma zostać wyświetlony przed polem tekstowym (i przed prefiksem)
+ - `append` - pozwala na przekazanie kodu HTML, który ma zostać wyświetlony za polem tekstowym (i za suffixem)
+ - `hint` - pozwala na przekazanie kodu HTML, który ma zostać wyświetlony jako wskazówka do wypełnienia pola tekstowego; wskazówka jest wyświetlana, gdy input nie jest w stanie błędu
+
+Wszystkie metody obiektu zamontowanego dostępne są pod `window.wkInputs.{ID}`.
+
+<h3 id="wktextfield-sloty">Metody zamontowanego obiektu</h3>
+
+ - `getValue()` - pozwala na pobranie aktualnej zawartości pola
+ - `setValue(value)` - pozwala na programistyczne ustawienie wartości pola na przekazaną w argumencie funkcji
+ - `getFocus()` - pozwala na pobranie informacji, czy pole jest aktualnie aktywne (zwraca Boolean)
+ - `setFocus(state: Boolean)` - pozwala na zmianę stanu aktywności na wartość przekazaną w argumencie
+ - `getDisabled()` - pozwala na pobranie informacji, czy pole jest wyłączone (zwraca Boolean)
+ - `setDisabled(state : Boolean)` - pozwala na wyłączenie lub włączenie pola tekstowego
+ - `validate()` - wykonuje zdefiniowane testy i zwraca Boolean, czy zawartość pola jest poprawna czy nie; pole zostanie też automatycznie ustawione w odpowiedni stan błędu
+ - `resetValidation()` - pozwala na zresetowanie stanu błędu pola tekstowego
+ 
+ <h2 id="wktextfield">WkTextarea</h2>
+Komponent pola na dłuższy tekst (textarea). Działa analogicznie do WkTextField (z kilkoma dodatkowymi funkcjonalnościami).
+
+<h3 id="wktextarea-propsy">Dostępne propsy</h3>
+
+ - `showAsterisk` **(boolean)** - decyduje o tym, czy pokazać na końcu elementu label czerwoną gwiazdkę
+ - `defaultErrorMsg` **(string)** - domyślna wiadomość błędu, jaka ma zostać wyświetlona, gdy funkcja walidująca nie zwróci innego komunikatu
+ - `counterValue` **(Integer)** - wartość licznika limitu znaków. Sam licznik nie zapewnia żadnej walidacji, informuje tylko o liczbie znaków w wartości pola tekstowego
+ - `id` **(string)** - ID elementu, musi być unikalne
+ - `disabled` **(boolean)** - flaga decydująca o tym, czy pole tekstowe na start będzie wyłączone czy nie
+ - `name` **(string)** - nazwa do przekazania do atrybutu HTML name inputa
+ - `value` **(string)** - zawartość startowa pola tekstowego
+ - `placeholder` **(string)** - opcjonalny tekst wyświetlany, gdy pole tekstowe jest puste
+ - `prefix` **(string)** - stały tekst wyświetlany tuż przed polem tekstowym
+ - `suffix` **(string)** - stały tekst wyświetlany tuż za polem tekstowym
+ - `rows` **(Integer)** - liczba wierszy, na którą wysokie ma być pole tekstowe (w trybie `autogrow` jest to maksymalna liczba wierszy, na jaką pole może się rozszerzyć, zanim włączy się scroll)
+ - `autogrow` **(boolean)** - flaga decydująca o tym, czy pole pracuje w trybie sztywno ustawionej wysokości (ilości wierszy) czy w trybie dynamicznego rozszerzania w zależności od objętości tekstu
+
+<h3 id="wktextarea-sloty">Dostępne sloty</h3>
+
+ - `label` - pozwala na przekazanie kodu HTML, który ma zostać umieszczony jako label pola tekstowego
+ - `prepend` - pozwala na przekazanie kodu HTML, który ma zostać wyświetlony przed polem tekstowym (i przed prefiksem)
+ - `append` - pozwala na przekazanie kodu HTML, który ma zostać wyświetlony za polem tekstowym (i za suffixem)
+ - `hint` - pozwala na przekazanie kodu HTML, który ma zostać wyświetlony jako wskazówka do wypełnienia pola tekstowego; wskazówka jest wyświetlana, gdy pole tekstowe nie jest w stanie błędu
+
+Wszystkie metody obiektu zamontowanego dostępne są pod `window.wkInputs.{ID}`.
+
+<h3 id="wktextarea-metody">Metody zamontowanego obiektu</h3>
+
+ - `getValue()` - pozwala na pobranie aktualnej zawartości pola
+ - `setValue(value)` - pozwala na programistyczne ustawienie wartości pola na przekazaną w argumencie funkcji
+ - `getFocus()` - pozwala na pobranie informacji, czy pole jest aktualnie aktywne (zwraca Boolean)
+ - `setFocus(state: Boolean)` - pozwala na zmianę stanu aktywności na wartość przekazaną w argumencie
+ - `getDisabled()` - pozwala na pobranie informacji, czy pole jest wyłączone (zwraca Boolean)
+ - `setDisabled(state : Boolean)` - pozwala na wyłączenie lub włączenie pola tekstowego
+ - `getAutogrow()` - pozwala na pobranie informacji, czy pole pracuje w trybie autogrow (zwraca Boolean)
+ - `setAutogrow(state: Boolean)` - pozwala na zmianę trybu pracy pola tekstowego
+ - `validate()` - wykonuje zdefiniowane testy i zwraca Boolean, czy zawartość pola jest poprawna czy nie; pole zostanie też automatycznie ustawione w odpowiedni stan błędu
+ - `resetValidation()` - pozwala na zresetowanie stanu błędu pola tekstowego
+
+<h2 id="wkradio">WkRadio</h2>
+Komponent przycisku typu radio. Wszystkie przyciski w danej grupie powinny posiadać identyczną wartość parametru `name`, dzięki temu będą reagowały ze sobą w odpowiedni sposób. W momencie zmiany stanu dowolnego przycisku z grupy wykonywana jest walidacja na każdym jej elemencie.
+
+<h3 id="wkradio-propsy">Dostępne propsy</h3>
+
+ - `defaultErrorMsg` **(string)** - domyślna wiadomość błędu, jaka ma zostać
+   wyświetlona, gdy funkcja walidująca nie zwróci innego komunikatu
+ - `id` **(string)** - ID elementu, musi być unikalne
+ - `disabled` **(boolean)** - flaga decydująca o tym, czy input na start będzie wyłączony czy nie
+ - `name` **(string)** - nazwa do przekazania do atrybutu HTML name inputa oraz jako nazwa grupy
+ - `value` **(string|Number)** - wartość startowa grupy inputów (powinna być identyczna dla każdego z jej elementów)
+ - `trueValue` **(string|Number)** - wartość aktywna konkretnego inputa (jeżeli `value` będzie równe tej wartości, to komponent jest uznawany za aktywny [checked])
+
+<h3 id="wkradio-sloty">Dostępne sloty</h3>
+
+ - `label` - pozwala na przekazanie kodu HTML, który ma zostać umieszczony jako label elementu `radio`
+ - `hint` - pozwala na przekazanie kodu HTML, który ma zostać wyświetlony jako wskazówka dla elementu
+
+<h3 id="wkradio-metody">Metody zamontowanego obiektu</h3>
+
+ - `isSelected()` - pozwala na pobranie informacji (Boolean) czy input jest zaznaczony, czy nie (czyli czy `trueValue` zgadza się z aktualnym `value` grupy inputa)
+ - `setValue(value)` - pozwala na programistyczne ustawienie wartości pola (a więc i całej jego grupy) na przekazaną w argumencie funkcji
+ - `getDisabled()` - pozwala na pobranie informacji, czy pole jest wyłączone (zwraca Boolean)
+ - `setDisabled(state : Boolean)` - pozwala na wyłączenie lub włączenie pola tekstowego
+ - `validate()` - wykonuje zdefiniowane testy i zwraca Boolean, czy zawartość pola jest poprawna czy nie; pole zostanie też automatycznie ustawione w odpowiedni stan błędu
+ - `resetValidation()` - pozwala na zresetowanie stanu błędu pola tekstowego
+
+<h3 id="wkradio-metody-grupy">Metody grupy przycisków</h3>
+
+Aby w łatwy sposób móc pobrać aktualną wartość `value` z całej grupy inputów radio bez konieczności sprawdzania stanu każdego z nich należy skorzystać z pomocniczego obiektu `__inputGroups` dostępnego pod obiektem `wkInputs`. 
+
+ - `getRadioGroupValue(group_name: String)` - zwraca aktualną wartość `value` (zaznaczonego buttona radio) z grupy o podanej w argumencie nazwie
+ - `validateGroup(group_name: String)` - wykonuje walidację każdego elementu z grupy o nazwie przekazanej poprzez argument i zwraca `true` jeżeli wszystkie elementy są poprawne lub `false`, jeżeli chociaż jeden element z grupy zwrócił błąd
