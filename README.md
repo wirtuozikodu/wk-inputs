@@ -7,6 +7,7 @@ Kolekcja interaktywnych komponentów formularza w formie komponentów Twig i w o
 
 - [Informacje ogólne](#informacje-ogolne)
 - [Walidacja](#walidacja)
+- [Eventy](#eventy)
 - [WkTextField](#wktextfield)
 	- [Propsy](#wktextfield-propsy)
 	- [Sloty](#wktextfield-sloty)
@@ -20,6 +21,16 @@ Kolekcja interaktywnych komponentów formularza w formie komponentów Twig i w o
 	- [Sloty](#wkradio-sloty)
 	- [Metody](#wkradio-metody)
 	- [Metody grupy](#wkradio-metody-grupy)
+- [WkCheckbox](#wkcheckbox)
+	- [Propsy](#wkcheckbox-propsy)
+	- [Sloty](#wkcheckbox-sloty)
+	- [Metody](#wkcheckbox-metody)
+	- [Metody grupy](#wkcheckbox-metody-grupy)
+- [WkSelect](#wkselect)
+	- [Propsy](#wkselect-propsy)
+	- [Sloty](#wkselect-sloty)
+	- [Metody](#wkselect-metody)
+	- [Metody grupy](#wkselect-metody-grupy)
 
 <h2 id="informacje-ogolne">Informacje ogólne</h2>
 
