@@ -99,6 +99,25 @@ wkInputs.user_name.wkInput.addRule(
 wkInputs.user_name.validate(); // true/false
 ```
 
+<h2 id="eventy">Eventy</h2>
+
+Każdy z zamontowanych elementów rozgłasza właściwe sobie eventy wywoływane konkretnymi akcjami użytkownika. Możliwe jest przypisanie do nich funkcji metodą `.on(event, funkcja)`, alternatywnie `.once(event, funkcja)` - wówczas wykona się tylko raz.
+
+Funkcja anonimowa może otrzymać argument (tutaj: `e`). Dostępne w nim są poniższe dane:
+
+ - `e.input` - pierwotny element rozgłaszający (można za jego pomocą np. wywoływać jego metody)
+ - `e.native_event` - standardowe szczegóły eventu (jak np. `keyCode`)
+
+Na przykład:
+
+```javascript
+window.wkInputs.text_field.on('keydown', function(e){
+	console.log(e.native_event.keyCode);
+});
+```
+
+Listy eventów rozgłaszanych przez poszczególne elementy znajdują się w poświęconych im rozdziałach.
+
 <h2 id="wktextfield">WkTextField</h2>
 Komponent prostego pola tekstowego (text, password, number, itd.).
 
@@ -125,7 +144,7 @@ Komponent prostego pola tekstowego (text, password, number, itd.).
 
 Wszystkie metody obiektu zamontowanego dostępne są pod `window.wkInputs.{ID}`.
 
-<h3 id="wktextfield-sloty">Metody zamontowanego obiektu</h3>
+<h3 id="wktextfield-metody">Metody zamontowanego obiektu</h3>
 
  - `getValue()` - pozwala na pobranie aktualnej zawartości pola
  - `setValue(value)` - pozwala na programistyczne ustawienie wartości pola na przekazaną w argumencie funkcji
@@ -135,6 +154,13 @@ Wszystkie metody obiektu zamontowanego dostępne są pod `window.wkInputs.{ID}`.
  - `setDisabled(state : Boolean)` - pozwala na wyłączenie lub włączenie pola tekstowego
  - `validate()` - wykonuje zdefiniowane testy i zwraca Boolean, czy zawartość pola jest poprawna czy nie; pole zostanie też automatycznie ustawione w odpowiedni stan błędu
  - `resetValidation()` - pozwala na zresetowanie stanu błędu pola tekstowego
+ - `on(event, funkcja)` - pozwala na przechwytywanie eventów rozgłaszanych przez element, tj:
+	 - `click` - kliknięcie w element
+	 - `focus` - 'skupienie' na elemencie
+	 - `blur` - przerwanie 'skupienia'
+	 - `keydown` - klawisz wciśnięty
+	 - `keyup` - klawisz puszczony
+	 - `input` - zmieniona wartość
  
  <h2 id="wktextfield">WkTextarea</h2>
 Komponent pola na dłuższy tekst (textarea). Działa analogicznie do WkTextField (z kilkoma dodatkowymi funkcjonalnościami).
@@ -175,8 +201,16 @@ Wszystkie metody obiektu zamontowanego dostępne są pod `window.wkInputs.{ID}`.
  - `setAutogrow(state: Boolean)` - pozwala na zmianę trybu pracy pola tekstowego
  - `validate()` - wykonuje zdefiniowane testy i zwraca Boolean, czy zawartość pola jest poprawna czy nie; pole zostanie też automatycznie ustawione w odpowiedni stan błędu
  - `resetValidation()` - pozwala na zresetowanie stanu błędu pola tekstowego
+ - `on(event, funkcja)` - pozwala na przechwytywanie eventów rozgłaszanych przez element, tj:
+	 - `click` - kliknięcie w element
+	 - `focus` - 'skupienie' na elemencie
+	 - `blur` - przerwanie 'skupienia'
+	 - `keydown` - klawisz wciśnięty
+	 - `keyup` - klawisz puszczony
+	 - `input` - zmieniona wartość
 
 <h2 id="wkradio">WkRadio</h2>
+
 Komponent przycisku typu radio. Wszystkie przyciski w danej grupie powinny posiadać identyczną wartość parametru `name`, dzięki temu będą reagowały ze sobą w odpowiedni sposób. W momencie zmiany stanu dowolnego przycisku z grupy wykonywana jest walidacja na każdym jej elemencie.
 
 <h3 id="wkradio-propsy">Dostępne propsy</h3>
@@ -199,9 +233,11 @@ Komponent przycisku typu radio. Wszystkie przyciski w danej grupie powinny posia
  - `isSelected()` - pozwala na pobranie informacji (Boolean) czy input jest zaznaczony, czy nie (czyli czy `trueValue` zgadza się z aktualnym `value` grupy inputa)
  - `setValue(value)` - pozwala na programistyczne ustawienie wartości pola (a więc i całej jego grupy) na przekazaną w argumencie funkcji
  - `getDisabled()` - pozwala na pobranie informacji, czy pole jest wyłączone (zwraca Boolean)
- - `setDisabled(state : Boolean)` - pozwala na wyłączenie lub włączenie pola tekstowego
+ - `setDisabled(state : Boolean)` - pozwala na wyłączenie lub włączenie komponentu
  - `validate()` - wykonuje zdefiniowane testy i zwraca Boolean, czy zawartość pola jest poprawna czy nie; pole zostanie też automatycznie ustawione w odpowiedni stan błędu
- - `resetValidation()` - pozwala na zresetowanie stanu błędu pola tekstowego
+ - `resetValidation()` - pozwala na zresetowanie stanu błędu komponentu
+ - `on(event, funkcja)` - pozwala na przechwytywanie eventów rozgłaszanych przez element, tj:
+ 	 - `change` - zmiana stanu
 
 <h3 id="wkradio-metody-grupy">Metody grupy przycisków</h3>
 
@@ -209,3 +245,118 @@ Aby w łatwy sposób móc pobrać aktualną wartość `value` z całej grupy inp
 
  - `getRadioGroupValue(group_name: String)` - zwraca aktualną wartość `value` (zaznaczonego buttona radio) z grupy o podanej w argumencie nazwie
  - `validateGroup(group_name: String)` - wykonuje walidację każdego elementu z grupy o nazwie przekazanej poprzez argument i zwraca `true` jeżeli wszystkie elementy są poprawne lub `false`, jeżeli chociaż jeden element z grupy zwrócił błąd
+
+<h2 id="wkcheckbox">WkCheckbox</h2>
+
+Komponent przycisku typu checkbox. Jeżeli pracuje w trybie `multiple`, wymaga podania propsa `name`, na podstawie którego jest automatycznie dołączany do odpowiedniej grupy. Reaguje wówczas np. na kliknięcie w inny checkbox z tej samej grupy.
+
+<h3 id="wkcheckbox-propsy">Dostępne propsy</h3>
+
+ - `defaultErrorMsg` **(string)** - domyślna wiadomość błędu, jaka ma zostać wyświetlona, gdy funkcja walidująca nie zwróci innego komunikatu
+ - `id` **(string)** - ID elementu, musi być unikalne
+ - `disabled` **(boolean)** - flaga decydująca o tym, czy input na start będzie wyłączony czy nie
+ - `name` **(string)** - nazwa do przekazania do atrybutu HTML name inputa oraz jako nazwa grupy
+ - `value` **(string|Number)** - wartość startowa inputa (każdy input z grupy powinien dostać na start taką samą wartość)
+ - `trueValue` **(string|Number)** - wartość aktywna inputa (jeżeli value będzie równe tej wartości, to komponent jest uznawany za aktywny [checked])
+ - `falseValue` **(string|Number)** - wartość nieaktywnego inputa (zwracana, gdy pole jest odznaczone, ma zastosowanie tylko w pracy pojedynczej inputa)
+ - `multiple` **(Boolean)** - flaga decydująca o tym, czy input pracuje w trybie grupowym czy nie; nie ma możliwości zmiany trybu pracy po zainicjowaniu komponentu
+
+<h3 id="wkcheckbox-sloty">Dostępne sloty</h3>
+
+ - `label` - pozwala na przekazanie kodu HTML, który ma zostać umieszczony jako label elementu `checkbox`
+ - `hint` - pozwala na przekazanie kodu HTML, który ma zostać wyświetlony jako wskazówka dla elementu
+
+<h3 id="wkcheckbox-metody">Metody zamontowanego obiektu</h3>
+
+ - `isSelected()` - pozwala na pobranie informacji (Boolean) czy input jest zaznaczony, czy nie (czyli czy `trueValue` zgadza się z aktualnym `value` grupy inputa)
+ - `setValue(value)` - pozwala na programistyczne ustawienie wartości pola (a więc i całej jego grupy) na przekazaną w argumencie funkcji
+ - `getDisabled()` - pozwala na pobranie informacji, czy pole jest wyłączone (zwraca Boolean)
+ - `setDisabled(state : Boolean)` - pozwala na wyłączenie lub włączenie komponentu
+ - `validate()` - wykonuje zdefiniowane testy i zwraca Boolean, czy zawartość pola jest poprawna czy nie; pole zostanie też automatycznie ustawione w odpowiedni stan błędu
+ - `resetValidation()` - pozwala na zresetowanie stanu błędu komponentu
+ - `on(event, funkcja)` - pozwala na przechwytywanie eventów rozgłaszanych przez element, tj:
+ 	 - `change` - zmiana stanu (wartości)
+
+<h3 id="wkcheckbox-metody-grupy">Metody grupy przycisków</h3>
+
+Aby w łatwy sposób móc pobrać aktualną wartość `value` z całej grupy inputów checkbox bez konieczności sprawdzania stanu każdego z nich należy skorzystać z pomocniczego obiektu `__inputGroups` dostępnego pod obiektem `wkInputs`. 
+
+ - `getRadioGroupValue(group_name: String)` - zwraca aktualne wartości (**array**) `value` (wszystkich zaznaczonych checkboxów) z grupy o podanej w argumencie nazwie
+ - `validateGroup(group_name: String)` - wykonuje walidację każdego elementu z grupy o nazwie przekazanej poprzez argument i zwraca `true` jeżeli wszystkie elementy są poprawne lub `false`, jeżeli chociaż jeden element z grupy zwrócił błąd
+
+<h2 id="wkselect">WkSelect</h2>
+
+Komponent elementu select rozszerzonego o dodatkowe funkcjonalności.
+
+<h3 id="wkselect-propsy">Dostępne propsy</h3>
+
+- `showAsterisk` **(boolean)** - decyduje o tym, czy pokazać na końcu elementu label czerwoną gwiazdkę
+- `defaultErrorMsg` **(string)** - domyślna wiadomość błędu, jaka ma zostać wyświetlona, gdy funkcja walidująca nie zwróci innego komunikatu
+- `id` **(string)** - ID elementu, musi być unikalne
+- `disabled` **(boolean)** - flaga decydująca o tym, czy select na start będzie wyłączony czy nie
+- `value` **(string|Number)** - wartość startowa selecta (jeśli nie jest pusta, powinna odpowiadać polu wartości jednego z elementów listy)
+- `placeholder` **(string)** - opcjonalny tekst wyświetlany, gdy nie jest wybrany żaden element (a więc tylko wówczas, gdy wartość startowa jest pusta
+-  `prefix` **(string)** - stały tekst wyświetlany przed polem select
+-  `suffix` **(string)** - stały tekst wyświetlany tuż za polem select
+- `itemText` **(string)** - niestandardowa nazwa parametru zawierającego widoczny tekst elementu listy
+- `itemValue` **(string)** - niestandardowa nazwa parametru zawierającego wartość elementu listy
+- `items` **(array)** - tablica obiektów odpowiadających elementom listy (nazwy pól tekstu, wartości oraz stanu wyłączenia powinny odpowiadać nazwom określonym w trzech powyższych parametrach).
+
+Parametry elementów listy (o domyślnych nazwach):
+
+- `text` **(string|Number)** - tekst wyświetlany jako element listy
+- `value` **(string|Number)** - wartość elementu listy
+
+Przykładowa lista elementów w elemencie select:
+
+```twig
+{% embed  'components/wk-select.twig' with {
+	id: 'select',
+	value: 'fr',
+	itemText: 'text',
+	itemValue: 'value',
+	itemDisabled: 'disabled'
+	items: [
+		{
+			text: 'France',
+			value: 'fr'
+		},
+		{
+			text: 'United Kingdom',
+			value: 'uk'
+		},
+		{
+			text: 'Germany',
+			value: 'ge'
+		}
+	]
+} only %}
+	{% block  label %}
+		Wybierz państwo
+	{% endblock %}
+{% endembed %}
+```
+
+<h3 id="wkselect-sloty">Dostępne sloty</h3>
+
+ - `label` - pozwala na przekazanie kodu HTML, który ma zostać umieszczony jako label elementu `select`
+ - `hint` - pozwala na przekazanie kodu HTML, który ma zostać wyświetlony jako wskazówka dla elementu
+
+<h3 id="wkselect-metody">Metody zamontowanego obiektu</h3>
+
+ - `getValue()` - pozwala na pobranie aktualnej zawartości pola
+ - `setValue(value)` - pozwala na programistyczne ustawienie wartości pola na przekazaną w argumencie funkcji
+ - `getFocus()` - pozwala na pobranie informacji, czy select jest aktualnie aktywny (zwraca Boolean)
+ - `setFocus(state: Boolean)` - pozwala na zmianę stanu aktywności na wartość przekazaną w argumencie
+ - `getDisabled()` - pozwala na pobranie informacji, czy select jest wyłączony (zwraca Boolean)
+ - `setDisabled(state : Boolean)` - pozwala na wyłączenie lub włączenie selecta
+ - `openItemsList()` - otwiera rozwijaną listę elementów
+ - `closeItemsList()` - zamyka rozwijaną listę elementów
+ - `toggleItemsList()` - otwiera/zamyka rozwijaną listę elementów
+ - `validate()` - wykonuje zdefiniowane testy i zwraca Boolean, czy zawartość pola jest poprawna czy nie; pole zostanie też automatycznie ustawione w odpowiedni stan błędu
+ - `resetValidation()` - pozwala na zresetowanie stanu błędu pola tekstowego
+ - `on(event, funkcja)` - pozwala na przechwytywanie eventów rozgłaszanych przez element, tj:
+	 - `click` - kliknięcie w element
+	 - `focus` - 'skupienie' na elemencie
+	 - `blur` - przerwanie 'skupienia'
+	 - `change` - zmiana stanu (wartości)
