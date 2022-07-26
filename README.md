@@ -30,7 +30,6 @@ Kolekcja interaktywnych komponentów formularza w formie komponentów Twig i w o
 	- [Propsy](#wkselect-propsy)
 	- [Sloty](#wkselect-sloty)
 	- [Metody](#wkselect-metody)
-	- [Metody grupy](#wkselect-metody-grupy)
 
 <h2 id="informacje-ogolne">Informacje ogólne</h2>
 
