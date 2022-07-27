@@ -112,12 +112,16 @@ wkInputs.user_name.validate(); // true/false
 
 <h2 id="eventy">Eventy</h2>
 
-Każdy z zamontowanych elementów rozgłasza właściwe sobie eventy wywoływane konkretnymi akcjami użytkownika. Możliwe jest przypisanie do nich funkcji metodą `.on(event, funkcja)`, alternatywnie `.once(event, funkcja)` - wówczas wykona się tylko raz.
+Każdy z zamontowanych elementów rozgłasza właściwe sobie eventy wywoływane konkretnymi akcjami użytkownika. Możliwe jest ich przechwytywanie przy pomocy metod:
+
+ - `.on(event, funkcja)` - tworzy handler eventów określonego typu
+ - `.once(event, funkcja)` - tworzy jednorazowy handler eventu określonego typu (funkcja wykona się tylko za pierwszym razem)
+ - `.off(event, funkcja)` - usunięcie obserwatora eventów dodanego metodą `.on()`
 
 Funkcja anonimowa może otrzymać argument (tutaj: `e`). Dostępne w nim są poniższe dane:
 
  - `e.input` - pierwotny element rozgłaszający (można za jego pomocą np. wywoływać jego metody)
- - `e.native_event` - standardowe szczegóły eventu (jak np. `keyCode`)
+ - `e.native_event` - domyślny event generowany przez przeglądarkę w kontekście eventu
 
 Na przykład:
 
@@ -292,7 +296,7 @@ Komponent przycisku typu checkbox. Jeżeli pracuje w trybie `multiple`, wymaga p
 
 Aby w łatwy sposób móc pobrać aktualną wartość `value` z całej grupy inputów checkbox bez konieczności sprawdzania stanu każdego z nich należy skorzystać z pomocniczego obiektu `__inputGroups` dostępnego pod obiektem `wkInputs`. 
 
- - `getRadioGroupValue(group_name: String)` - zwraca aktualne wartości (**array**) `value` (wszystkich zaznaczonych checkboxów) z grupy o podanej w argumencie nazwie
+ - `getCheckboxGroupValue(group_name: String)` - zwraca aktualne wartości (**array**) `value` (wszystkich zaznaczonych checkboxów) z grupy o podanej w argumencie nazwie
  - `validateGroup(group_name: String)` - wykonuje walidację każdego elementu z grupy o nazwie przekazanej poprzez argument i zwraca `true` jeżeli wszystkie elementy są poprawne lub `false`, jeżeli chociaż jeden element z grupy zwrócił błąd
 
 <h2 id="wkselect">WkSelect</h2>
@@ -311,7 +315,7 @@ Komponent elementu select rozszerzonego o dodatkowe funkcjonalności.
 -  `suffix` **(string)** - stały tekst wyświetlany tuż za polem select
 - `itemText` **(string)** - niestandardowa nazwa parametru zawierającego widoczny tekst elementu listy
 - `itemValue` **(string)** - niestandardowa nazwa parametru zawierającego wartość elementu listy
-- `items` **(array)** - tablica obiektów odpowiadających elementom listy (nazwy pól tekstu, wartości oraz stanu wyłączenia powinny odpowiadać nazwom określonym w trzech powyższych parametrach).
+- `items` **(array)** - tablica obiektów odpowiadających elementom listy (nazwy pól tekstu oraz wartości powinny odpowiadać nazwom określonym w trzech powyższych parametrach).
 
 Parametry elementów listy (o domyślnych nazwach):
 
@@ -369,5 +373,5 @@ Przykładowa lista elementów w elemencie select:
  - `on(event, funkcja)` - pozwala na przechwytywanie eventów rozgłaszanych przez element, tj:
 	 - `click` - kliknięcie w element
 	 - `focus` - 'skupienie' na elemencie
-	 - `blur` - przerwanie 'skupienia' 
+	 - `blur` - przerwanie 'skupienia'
 	 - `change` - zmiana stanu (wartości)
