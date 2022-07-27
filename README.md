@@ -30,6 +30,7 @@ Kolekcja interaktywnych komponentów formularza w formie komponentów Twig i w o
 	- [Propsy](#wkselect-propsy)
 	- [Sloty](#wkselect-sloty)
 	- [Metody](#wkselect-metody)
+	- [Metody grupy](#wkselect-metody-grupy)
 
 <h2 id="informacje-ogolne">Informacje ogólne</h2>
 
@@ -46,29 +47,29 @@ W jego kompetencjach jest otrzymywanie reguł walidacji oraz walidowanie wartoś
  8. Z poziomu Twig każdy komponent wstawiamy jako `embed`, do którego można przekazać dane w formie propsów (`with {} only`) oraz w formie slotów (elementy `{% block %}`), na przykład: 
 ```twig
 {% embed 'components/wk-test-field.twig' with {
-	showAsterisk: true,
-	defaultErrorMessage: 'Wprowadź wartość',
-	counterValue: 20,
-	id: 'cf_name',
-	type: 'text',
-	disabled: false,
-	name: 'testname',
-	value: 'Domyślna zawartość',
-	placeholder: 'Wpisz coś...',
-	prefix: '+48',
-	suffix: 'PLN'
+    showAsterisk: true,
+    defaultErrorMessage: 'Wprowadź wartość',
+    counterValue: 20,
+    id: 'cf_name',
+    type: 'text',
+    disabled: false,
+    name: 'testname',
+    value: 'Domyślna zawartość',
+    placeholder: 'Wpisz coś...',
+    prefix: '+48',
+    suffix: 'PLN'
 } only %}
-	{% block label %}
-		Zawartość labela
-	{% endblock %}
+    {% block label %}
+        Zawartość labela
+    {% endblock %}
 
-	{% block prepend %}
-		Wartość poprzedzająca pole
-	{% endblock %}
+    {% block prepend %}
+        Wartość poprzedzająca pole
+    {% endblock %}
 
-	{% block hint %}
-		Wskazówka
-	{% endblock %}
+    {% block hint %}
+        Wskazówka
+    {% endblock %}
 {% endembed %}
 ```
  9. Informacje o dostępnych propsach, slotach i metodach wymienione są w dokumentacji poszczególnych komponentów.
@@ -83,10 +84,10 @@ Walidacja bazuje na funkcjach walidujących (walidatorach), które w momencie wy
 Przykładowa funkcja walidująca:
 ```javascript
 function(value) {
-	if(!value || value.length == 0) return 'To pole jest wymagane';
-	if(value.length > 31) return 'Wprowadź maksymalnie 31 znaków';
-	if(!(/^[A-Za-z0-9_-]{1,31}$/).test(value)) return 'Nie spełniono wymagań';
-	return true;
+    if(!value || value.length == 0) return 'To pole jest wymagane';
+    if(value.length > 31) return 'Wprowadź maksymalnie 31 znaków';
+    if(!(/^[A-Za-z0-9_-]{1,31}$/).test(value)) return 'Nie spełniono wymagań';
+    return true;
 }
 ```
 
@@ -101,10 +102,10 @@ Regułami walidacji można zarządzać poprzez wykorzystanie metod zagnieżdżon
  Przykładowy sposób dodania reguły walidacji do inputa o ID user_name oraz sprawdzenia poprawności jego zawartości:
 ```javascript
 wkInputs.user_name.wkInput.addRule(
-	function(v){
-		if(!v || v.length == 0) return 'Pole nie może być puste!';
-		return true;
-	}
+    function(v){
+        if(!v || v.length == 0) return 'Pole nie może być puste!';
+        return true;
+    }
 );
 wkInputs.user_name.validate(); // true/false
 ```
@@ -122,7 +123,7 @@ Na przykład:
 
 ```javascript
 window.wkInputs.text_field.on('keydown', function(e){
-	console.log(e.native_event.keyCode);
+    console.log(e.native_event.keyCode);
 });
 ```
 
@@ -321,29 +322,29 @@ Przykładowa lista elementów w elemencie select:
 
 ```twig
 {% embed  'components/wk-select.twig' with {
-	id: 'select',
-	value: 'fr',
-	itemText: 'text',
-	itemValue: 'value',
-	itemDisabled: 'disabled'
-	items: [
-		{
-			text: 'France',
-			value: 'fr'
-		},
-		{
-			text: 'United Kingdom',
-			value: 'uk'
-		},
-		{
-			text: 'Germany',
-			value: 'ge'
-		}
-	]
+    id: 'select',
+    value: 'fr',
+    itemText: 'text',
+    itemValue: 'value',
+    itemDisabled: 'disabled'
+    items: [
+        {
+            text: 'France',
+            value: 'fr'
+        },
+        {
+            text: 'United Kingdom',
+            value: 'uk'
+        },
+        {
+            text: 'Germany',
+            value: 'ge'
+        }
+    ]
 } only %}
-	{% block  label %}
-		Wybierz państwo
-	{% endblock %}
+    {% block  label %}
+        Wybierz państwo
+    {% endblock %}
 {% endembed %}
 ```
 
