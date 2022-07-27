@@ -369,5 +369,5 @@ Przykładowa lista elementów w elemencie select:
  - `on(event, funkcja)` - pozwala na przechwytywanie eventów rozgłaszanych przez element, tj:
 	 - `click` - kliknięcie w element
 	 - `focus` - 'skupienie' na elemencie
-	 - `blur` - przerwanie 'skupienia'
+	 - `blur` - przerwanie 'skupienia' 
 	 - `change` - zmiana stanu (wartości)
