@@ -116,7 +116,7 @@ Każdy z zamontowanych elementów rozgłasza właściwe sobie eventy wywoływane
 
  - `.on(event, funkcja)` - tworzy handler eventów określonego typu
  - `.once(event, funkcja)` - tworzy jednorazowy handler eventu określonego typu (funkcja wykona się tylko za pierwszym razem)
- - `.off(event, funkcja)` - usunięcie obserwatora eventów dodanego metodą `.on()`
+ - `.off(event, funkcja)` - usuwa obserwatora eventów
 
 Funkcja anonimowa może otrzymać argument (tutaj: `e`). Dostępne w nim są poniższe dane:
 
