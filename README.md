@@ -330,7 +330,6 @@ Przykładowa lista elementów w elemencie select:
     value: 'fr',
     itemText: 'text',
     itemValue: 'value',
-    itemDisabled: 'disabled'
     items: [
         {
             text: 'France',
