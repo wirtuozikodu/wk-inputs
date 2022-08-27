@@ -328,9 +328,6 @@ function WkTextField(opts) {
             native_event: ev
         });
     });
-    this.tfield.addEventListener("focus", () => {
-        this.el.focus();
-    });
     this.el.addEventListener("focus", ev => {
         this.setFocus(true);
         this.eventBus.emit("focus", {
@@ -551,9 +548,6 @@ function WkTextarea(opts) {
             input: this,
             native_event: ev
         });
-    });
-    this.tfield.addEventListener("focus", () => {
-        this.el.focus();
     });
     this.el.addEventListener("focus", ev => {
         this.setFocus(true);
