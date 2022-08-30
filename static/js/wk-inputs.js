@@ -261,6 +261,7 @@ function WkTextField(opts) {
         if (this._focused) {
             this.main_wrapper.classList.add("wk-text-field--focused");
             this.hidePlaceholder();
+            this.el.focus();
         } else {
             this.main_wrapper.classList.remove("wk-text-field--focused");
             if (this.el.value == "") {
@@ -436,6 +437,7 @@ function WkTextarea(opts) {
         if (this._focused) {
             this.main_wrapper.classList.add("wk-textarea--focused");
             this.hidePlaceholder();
+            this.el.focus();
         } else {
             this.main_wrapper.classList.remove("wk-textarea--focused");
             if (this.el.value == "") {
