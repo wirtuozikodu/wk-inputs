@@ -10,19 +10,17 @@ function loadScript(src) {
 loadScript("https://unpkg.com/@popperjs/core@2");
 
 // deklaracja i inicjalizacja event bus dla niektórych typów inputów
-class WkInputsEventBus {
-    constructor() {
-        this._events = {};
-    }
+function WkInputsEventBus() {
+    this._events = {};
 
-    on = (event_name, handler) => {
+    this.on = (event_name, handler) => {
         this.registerEvent(event_name, handler, "on");
     };
-    once = (event_name, handler) => {
+    this.once = (event_name, handler) => {
         this.registerEvent(event_name, handler, "once");
     };
 
-    registerEvent = (event_name, handler, t) => {
+    this.registerEvent = (event_name, handler, t) => {
         if (this._events[event_name] == undefined) this._events[event_name] = [];
         this._events[event_name].push({
             t: t,
@@ -30,7 +28,7 @@ class WkInputsEventBus {
         });
     };
 
-    off = (event_name, handler) => {
+    this.off = (event_name, handler) => {
         if (this._events[event_name] == undefined) return;
         var ix = -1;
         var hts = handler.toString();
@@ -43,7 +41,7 @@ class WkInputsEventBus {
         if (ix !== -1) this._events[event_name].splice(ix, 1);
     };
 
-    emit = (event_name, payload) => {
+    this.emit = (event_name, payload) => {
         if (this._events[event_name] == undefined) return;
         var todel = [];
         for (var i = 0; i < this._events[event_name].length; i++) {
@@ -60,18 +58,16 @@ class WkInputsEventBus {
 window.wkInputs.__eventBus = new WkInputsEventBus();
 
 // deklaracja i inicjalizacja funkcji pomagającej wyciągać value z grupy inputów
-class WkInputGroups {
-    constructor() {
-        this.groups = {};
-        this.eventBus = new WkInputsEventBus();
-    }
+function WkInputGroups() {
+    this.groups = {};
+    this.eventBus = new WkInputsEventBus();
 
-    register = (name, wkInput) => {
+    this.register = (name, wkInput) => {
         if (this.groups[name] == undefined) this.groups[name] = [];
         this.groups[name].push(wkInput);
     };
 
-    getRadioGroupValue = group_name => {
+    this.getRadioGroupValue = group_name => {
         if (this.groups[group_name] == undefined) return null;
         var v = null;
         for (var i = 0; i < this.groups[group_name].length; i++) {
@@ -83,7 +79,7 @@ class WkInputGroups {
         return v;
     };
 
-    getCheckboxGroupValue = group_name => {
+    this.getCheckboxGroupValue = group_name => {
         if (this.groups[group_name] == undefined) return null;
         var v = [];
         for (var i = 0; i < this.groups[group_name].length; i++) {
@@ -97,7 +93,7 @@ class WkInputGroups {
         return v;
     };
 
-    validateGroup = group_name => {
+    this.validateGroup = group_name => {
         if (this.groups[group_name] == undefined) return null;
         var any_error = false;
         for (var i = 0; i < this.groups[group_name].length; i++) {
@@ -110,72 +106,67 @@ class WkInputGroups {
 window.wkInputs.__inputGroups = new WkInputGroups();
 
 // obsługa ogólnego wrappera wk-input
-class WkInput {
-    constructor(opts) {
-        // base setup
-        this.el = opts.el;
-        this.el_id = opts.el_id;
-        this.rules = [];
-        this.input_value = "";
-        this.default_error_msg = "";
+function WkInput(opts) {
+    // base setup
+    this.el = opts.el;
+    this.el_id = opts.el_id;
+    this.rules = [];
+    this.input_value = "";
+    this.default_error_msg = "";
 
-        // elementy zależne
-        this.counter_value = document.querySelector(
-            '.wk-input__countervalue[data-input="' + this.el_id + '"]'
-        );
-        this.hint = document.querySelector(
-            '.wk-input__message.wk-input__hint[data-input="' + this.el_id + '"]'
-        );
-        this.errormsg = document.querySelector(
-            '.wk-input__message.wk-input__errormsg[data-input="' + this.el_id + '"]'
-        );
-        if (this.errormsg) {
-            this.default_error_msg = this.errormsg.innerText;
-        }
-
-        // mounting
-        this.hideErrorMessage();
+    // elementy zależne
+    this.counter_value = document.querySelector(
+        '.wk-input__countervalue[data-input="' + this.el_id + '"]'
+    );
+    this.hint = document.querySelector(
+        '.wk-input__message.wk-input__hint[data-input="' + this.el_id + '"]'
+    );
+    this.errormsg = document.querySelector(
+        '.wk-input__message.wk-input__errormsg[data-input="' + this.el_id + '"]'
+    );
+    if (this.errormsg) {
+        this.default_error_msg = this.errormsg.innerText;
     }
 
     // udostępniane metody
-    updateCounter = v => {
+    this.updateCounter = v => {
         if (!this.counter_value) return false;
         this.counter_value.innerText = v;
         return true;
     };
-    setInputValue = v => {
+    this.setInputValue = v => {
         this.input_value = v;
     };
 
-    setRules = rules => {
+    this.setRules = rules => {
         if (!Array.isArray(rules)) rules = [rules];
         this.rules = rules;
     };
-    addRule = rule => {
+    this.addRule = rule => {
         this.rules.push(rule);
     };
-    clearRules = () => {
+    this.clearRules = () => {
         this.rules = [];
     };
 
-    showHint = () => {
+    this.showHint = () => {
         this.hint.style.display = "block";
     };
-    hideHint = () => {
+    this.hideHint = () => {
         this.hint.style.display = "none";
     };
 
-    showErrorMessage = () => {
+    this.showErrorMessage = () => {
         this.errormsg.style.display = "block";
     };
-    hideErrorMessage = () => {
+    this.hideErrorMessage = () => {
         this.errormsg.style.display = "none";
     };
-    setErrorMessage = msg => {
+    this.setErrorMessage = msg => {
         this.errormsg.innerText = msg;
     };
 
-    validate = () => {
+    this.validate = () => {
         var valid = true;
         var msg = "";
         for (var i = 0; i < this.rules.length; i++) {
@@ -200,101 +191,47 @@ class WkInput {
 
         return valid;
     };
-    resetValidation = () => {
+    this.resetValidation = () => {
         this.hideErrorMessage();
         if (this.hint) this.showHint();
     };
+
+    // mounting
+    this.hideErrorMessage();
 }
 
 // obsługa pola tekstowego
-class WkTextField {
-    constructor(opts) {
-        // base setup
-        this.el = opts.el;
-        this.id = this.el.id;
+function WkTextField(opts) {
+    // base setup
+    this.el = opts.el;
+    this.id = this.el.id;
 
-        // montowanie uniwersalnych funkcji od wk-input
-        this.wkInput = new WkInput({
-            el: document.querySelector('.wk-input[data-inputid="' + this.id + '"]'),
-            el_id: this.id
-        });
+    // montowanie uniwersalnych funkcji od wk-input
+    this.wkInput = new WkInput({
+        el: document.querySelector('.wk-input[data-inputid="' + this.id + '"]'),
+        el_id: this.id
+    });
 
-        // montowanie lokalnego event busa
-        this.eventBus = new WkInputsEventBus();
+    // montowanie lokalnego event busa
+    this.eventBus = new WkInputsEventBus();
 
-        // zbieranie wszystkich elementów HTML, na których będą wykonywane operacje
-        this.main_wrapper = document.querySelector(
-            '.wk-text-field[data-inputid="' + this.id + '"]'
-        );
-        this.tfield = document.querySelector(
-            '.wk-text-field__tfield[data-inputid="' + this.id + '"]'
-        );
-        this.placeholder = document.querySelector(
-            '.wk-text-field__placeholder[data-inputid="' + this.id + '"]'
-        );
+    // zbieranie wszystkich elementów HTML, na których będą wykonywane operacje
+    this.main_wrapper = document.querySelector('.wk-text-field[data-inputid="' + this.id + '"]');
+    this.tfield = document.querySelector('.wk-text-field__tfield[data-inputid="' + this.id + '"]');
+    this.placeholder = document.querySelector(
+        '.wk-text-field__placeholder[data-inputid="' + this.id + '"]'
+    );
 
-        // zmienne wewnętrzne stanu
-        this._focused = false;
-        this._valid = true;
-        this._disabled = !!(this.el.getAttribute("disabled") !== null);
-
-        // eventy wewnętrzne
-        this.main_wrapper.addEventListener("click", ev => {
-            this.el.focus();
-            this.eventBus.emit("click", {
-                input: this,
-                native_event: ev
-            });
-        });
-        this.el.addEventListener("focus", ev => {
-            this.setFocus(true);
-            this.eventBus.emit("focus", {
-                input: this,
-                native_event: ev
-            });
-        });
-        this.el.addEventListener("blur", ev => {
-            this.setFocus(false);
-            this.eventBus.emit("blur", {
-                input: this,
-                native_event: ev
-            });
-        });
-        this.el.addEventListener("input", ev => {
-            this.setValue(ev.target.value);
-            this.eventBus.emit("input", {
-                input: this,
-                native_event: ev
-            });
-        });
-        this.el.addEventListener("keydown", ev => {
-            this.eventBus.emit("keydown", {
-                input: this,
-                native_event: ev
-            });
-        });
-        this.el.addEventListener("keyup", ev => {
-            this.eventBus.emit("keyup", {
-                input: this,
-                native_event: ev
-            });
-        });
-        this.el.addEventListener("keypressed", ev => {
-            this.eventBus.emit("keypressed", {
-                input: this,
-                native_event: ev
-            });
-        });
-
-        // mounting
-        this.setValue(this.el.value);
-    }
+    // zmienne wewnętrzne stanu
+    this._focused = false;
+    this._valid = true;
+    this._disabled = !!(this.el.getAttribute("disabled") !== null);
 
     // udostępniane metody
-    getValue = () => {
+    this.getValue = () => {
         return this.el.value;
     };
-    setValue = v => {
+    this.setValue = v => {
         this.el.value = v;
         this.wkInput.updateCounter(v.length);
         this.wkInput.setInputValue(v);
@@ -307,17 +244,17 @@ class WkTextField {
         }
     };
 
-    showPlaceholder = () => {
+    this.showPlaceholder = () => {
         this.placeholder.style.display = "block";
     };
-    hidePlaceholder = () => {
+    this.hidePlaceholder = () => {
         this.placeholder.style.display = "none";
     };
 
-    getFocus = () => {
+    this.getFocus = () => {
         return this._focused;
     };
-    setFocus = state => {
+    this.setFocus = state => {
         if (state !== true) state = false;
         if (state === this._focused) return;
         this._focused = state;
@@ -333,10 +270,10 @@ class WkTextField {
         }
     };
 
-    getDisabled = () => {
+    this.getDisabled = () => {
         return this._disabled;
     };
-    setDisabled = state => {
+    this.setDisabled = state => {
         if (state !== true) state = false;
         if (state === this._disabled) return;
         this._disabled = state;
@@ -349,10 +286,10 @@ class WkTextField {
         }
     };
 
-    getValid = () => {
+    this.getValid = () => {
         return this._valid;
     };
-    setValid = state => {
+    this.setValid = state => {
         if (state !== true) state = false;
         if (state === this._valid) return;
         this._valid = state;
@@ -363,120 +300,114 @@ class WkTextField {
         }
     };
 
-    validate = () => {
+    this.validate = () => {
         var r = this.wkInput.validate();
         this.setValid(r);
         return r;
     };
-    resetValidation = () => {
+    this.resetValidation = () => {
         this.wkInput.resetValidation();
         this.setValid(true);
     };
 
     // ekspozycja event busa
-    on = (event_name, handler) => {
+    this.on = (event_name, handler) => {
         return this.eventBus.on(event_name, handler);
     };
-    once = (event_name, handler) => {
+    this.once = (event_name, handler) => {
         return this.eventBus.once(event_name, handler);
     };
-    off = (event_name, handler) => {
+    this.off = (event_name, handler) => {
         return this.eventBus.off(event_name, handler);
     };
+
+    // eventy wewnętrzne
+    this.main_wrapper.addEventListener("click", ev => {
+        this.el.focus();
+        this.eventBus.emit("click", {
+            input: this,
+            native_event: ev
+        });
+    });
+    this.el.addEventListener("focus", ev => {
+        this.setFocus(true);
+        this.eventBus.emit("focus", {
+            input: this,
+            native_event: ev
+        });
+    });
+    this.el.addEventListener("blur", ev => {
+        this.setFocus(false);
+        this.eventBus.emit("blur", {
+            input: this,
+            native_event: ev
+        });
+    });
+    this.el.addEventListener("input", ev => {
+        this.setValue(ev.target.value);
+        this.eventBus.emit("input", {
+            input: this,
+            native_event: ev
+        });
+    });
+    this.el.addEventListener("keydown", ev => {
+        this.eventBus.emit("keydown", {
+            input: this,
+            native_event: ev
+        });
+    });
+    this.el.addEventListener("keyup", ev => {
+        this.eventBus.emit("keyup", {
+            input: this,
+            native_event: ev
+        });
+    });
+    this.el.addEventListener("keypressed", ev => {
+        this.eventBus.emit("keypressed", {
+            input: this,
+            native_event: ev
+        });
+    });
+
+    // mounting
+    this.setValue(this.el.value);
 }
 
 // obsługa textarea
-class WkTextarea {
-    constructor(opts) {
-        // base setup
-        this.el = opts.el;
-        this.id = this.el.id;
+function WkTextarea(opts) {
+    // base setup
+    this.el = opts.el;
+    this.id = this.el.id;
 
-        // montowanie uniwersalnych funkcji od wk-input
-        this.wkInput = new WkInput({
-            el: document.querySelector('.wk-input[data-inputid="' + this.id + '"]'),
-            el_id: this.id
-        });
+    // montowanie uniwersalnych funkcji od wk-input
+    this.wkInput = new WkInput({
+        el: document.querySelector('.wk-input[data-inputid="' + this.id + '"]'),
+        el_id: this.id
+    });
 
-        // montowanie lokalnego event busa
-        this.eventBus = new WkInputsEventBus();
+    // montowanie lokalnego event busa
+    this.eventBus = new WkInputsEventBus();
 
-        // zbieranie wszystkich elementów HTML, na których będą wykonywane operacje
-        this.main_wrapper = document.querySelector('.wk-textarea[data-inputid="' + this.id + '"]');
-        this.tfield = document.querySelector(
-            '.wk-textarea__tfield[data-inputid="' + this.id + '"]'
-        );
-        this.placeholder = document.querySelector(
-            '.wk-textarea__placeholder[data-inputid="' + this.id + '"]'
-        );
+    // zbieranie wszystkich elementów HTML, na których będą wykonywane operacje
+    this.main_wrapper = document.querySelector('.wk-textarea[data-inputid="' + this.id + '"]');
+    this.tfield = document.querySelector('.wk-textarea__tfield[data-inputid="' + this.id + '"]');
+    this.placeholder = document.querySelector(
+        '.wk-textarea__placeholder[data-inputid="' + this.id + '"]'
+    );
 
-        // zmienne wewnętrzne stanu
-        this._focused = false;
-        this._valid = true;
-        this._disabled = !!(this.el.getAttribute("disabled") !== null);
-        this._rows = this.el.getAttribute("rows") ? parseInt(this.el.getAttribute("rows")) : null;
-        this._autogrow = this.el.getAttribute("data-autogrow") === "true" ? true : false;
-        this._row_height = parseInt(window.getComputedStyle(this.el).lineHeight);
-
-        // eventy wewnętrzne
-        this.main_wrapper.addEventListener("click", ev => {
-            this.el.focus();
-            this.eventBus.emit("click", {
-                input: this,
-                native_event: ev
-            });
-        });
-        this.el.addEventListener("focus", ev => {
-            this.setFocus(true);
-            this.eventBus.emit("focus", {
-                input: this,
-                native_event: ev
-            });
-        });
-        this.el.addEventListener("blur", ev => {
-            this.setFocus(false);
-            this.eventBus.emit("blur", {
-                input: this,
-                native_event: ev
-            });
-        });
-        this.el.addEventListener("input", ev => {
-            this.setValue(ev.target.value);
-            this.resizeTextarea();
-            this.eventBus.emit("input", {
-                input: this,
-                native_event: ev
-            });
-        });
-        this.el.addEventListener("keydown", ev => {
-            this.eventBus.emit("keydown", {
-                input: this,
-                native_event: ev
-            });
-        });
-        this.el.addEventListener("keyup", ev => {
-            this.eventBus.emit("keyup", {
-                input: this,
-                native_event: ev
-            });
-        });
-        this.el.addEventListener("keypressed", ev => {
-            this.eventBus.emit("keypressed", {
-                input: this,
-                native_event: ev
-            });
-        });
-
-        // mounting
-        this.setValue(this.el.value);
-        this.handleAutogrow();
-    }
+    // zmienne wewnętrzne stanu
+    this._focused = false;
+    this._valid = true;
+    this._disabled = !!(this.el.getAttribute("disabled") !== null);
+    this._rows = this.el.getAttribute("rows") ? parseInt(this.el.getAttribute("rows")) : null;
+    this._autogrow = this.el.getAttribute("data-autogrow") === "true" ? true : false;
+    this._row_height = parseInt(window.getComputedStyle(this.el).lineHeight);
 
     // udostępniane metody
-    getValue = () => {
+    this.getValue = () => {
         return this.el.value;
     };
-    setValue = v => {
+    this.setValue = v => {
         this.el.value = v;
         this.wkInput.updateCounter(v.length);
         this.wkInput.setInputValue(v);
@@ -489,17 +420,17 @@ class WkTextarea {
         }
     };
 
-    showPlaceholder = () => {
+    this.showPlaceholder = () => {
         this.placeholder.style.display = "block";
     };
-    hidePlaceholder = () => {
+    this.hidePlaceholder = () => {
         this.placeholder.style.display = "none";
     };
 
-    getFocus = () => {
+    this.getFocus = () => {
         return this._focused;
     };
-    setFocus = state => {
+    this.setFocus = state => {
         if (state !== true) state = false;
         if (state === this._focused) return;
         this._focused = state;
@@ -515,10 +446,10 @@ class WkTextarea {
         }
     };
 
-    getDisabled = () => {
+    this.getDisabled = () => {
         return this._disabled;
     };
-    setDisabled = state => {
+    this.setDisabled = state => {
         if (state !== true) state = false;
         if (state === this._disabled) return;
         this._disabled = state;
@@ -531,10 +462,10 @@ class WkTextarea {
         }
     };
 
-    getValid = () => {
+    this.getValid = () => {
         return this._valid;
     };
-    setValid = state => {
+    this.setValid = state => {
         if (state !== true) state = false;
         if (state === this._valid) return;
         this._valid = state;
@@ -545,26 +476,26 @@ class WkTextarea {
         }
     };
 
-    validate = () => {
+    this.validate = () => {
         var r = this.wkInput.validate();
         this.setValid(r);
         return r;
     };
-    resetValidation = () => {
+    this.resetValidation = () => {
         this.wkInput.resetValidation();
         this.setValid(true);
     };
 
-    getAutogrow = () => {
+    this.getAutogrow = () => {
         return this._autogrow;
     };
-    setAutogrow = state => {
+    this.setAutogrow = state => {
         if (state !== true) state = false;
         if (state === this._autogrow) return;
         this._autogrow = state;
         this.handleAutogrow();
     };
-    handleAutogrow = () => {
+    this.handleAutogrow = () => {
         // jeżeli autogrow jest wyłączony to zdejmujemy z textarea wszystkie nałożone style
         if (this._autogrow === false) {
             this.el.style.removeProperty("height");
@@ -576,7 +507,7 @@ class WkTextarea {
             this.resizeTextarea();
         }
     };
-    resizeTextarea = () => {
+    this.resizeTextarea = () => {
         if (!this._autogrow) return;
 
         var cp = this.el.cloneNode(true);
@@ -602,62 +533,98 @@ class WkTextarea {
     };
 
     // ekspozycja event busa
-    on = (event_name, handler) => {
+    this.on = (event_name, handler) => {
         return this.eventBus.on(event_name, handler);
     };
-    once = (event_name, handler) => {
+    this.once = (event_name, handler) => {
         return this.eventBus.once(event_name, handler);
     };
-    off = (event_name, handler) => {
+    this.off = (event_name, handler) => {
         return this.eventBus.off(event_name, handler);
     };
+
+    // eventy wewnętrzne
+    this.main_wrapper.addEventListener("click", ev => {
+        this.el.focus();
+        this.eventBus.emit("click", {
+            input: this,
+            native_event: ev
+        });
+    });
+    this.el.addEventListener("focus", ev => {
+        this.setFocus(true);
+        this.eventBus.emit("focus", {
+            input: this,
+            native_event: ev
+        });
+    });
+    this.el.addEventListener("blur", ev => {
+        this.setFocus(false);
+        this.eventBus.emit("blur", {
+            input: this,
+            native_event: ev
+        });
+    });
+    this.el.addEventListener("input", ev => {
+        this.setValue(ev.target.value);
+        this.resizeTextarea();
+        this.eventBus.emit("input", {
+            input: this,
+            native_event: ev
+        });
+    });
+    this.el.addEventListener("keydown", ev => {
+        this.eventBus.emit("keydown", {
+            input: this,
+            native_event: ev
+        });
+    });
+    this.el.addEventListener("keyup", ev => {
+        this.eventBus.emit("keyup", {
+            input: this,
+            native_event: ev
+        });
+    });
+    this.el.addEventListener("keypressed", ev => {
+        this.eventBus.emit("keypressed", {
+            input: this,
+            native_event: ev
+        });
+    });
+
+    // mounting
+    this.setValue(this.el.value);
+    this.handleAutogrow();
 }
 
 //obsługa radio
-class WkRadio {
-    constructor(opts) {
-        // base setup
-        this.el = opts.el;
-        this.id = this.el.id;
+function WkRadio(opts) {
+    // base setup
+    this.el = opts.el;
+    this.id = this.el.id;
 
-        // montowanie uniwersalnych funkcji od wk-input
-        this.wkInput = new WkInput({
-            el: document.querySelector('.wk-input[data-inputid="' + this.id + '"]'),
-            el_id: this.id
-        });
+    // montowanie uniwersalnych funkcji od wk-input
+    this.wkInput = new WkInput({
+        el: document.querySelector('.wk-input[data-inputid="' + this.id + '"]'),
+        el_id: this.id
+    });
 
-        // zbieranie wszystkich elementów HTML, na których będą wykonywane operacje
-        this.main_wrapper = document.querySelector('.wk-radio[data-inputid="' + this.id + '"]');
-        this.label = document.querySelector('.wk-radio__label[data-inputid="' + this.id + '"]');
+    // zbieranie wszystkich elementów HTML, na których będą wykonywane operacje
+    this.main_wrapper = document.querySelector('.wk-radio[data-inputid="' + this.id + '"]');
+    this.label = document.querySelector('.wk-radio__label[data-inputid="' + this.id + '"]');
 
-        // zmienne wewnętrzne stanu
-        this._valid = true;
-        this._disabled = !!(this.el.getAttribute("disabled") !== null);
-        this._true_value = opts.true_value || true;
-        this._value = opts.value || "";
-        this._name = opts.name || "unknown";
-
-        // eventy wewnętrzne
-        this.label.addEventListener("click", () => {
-            this.toggle();
-        });
-        this.el.addEventListener("click", e => {
-            this.toggle();
-        });
-
-        // mounting
-        wkInputs.__inputGroups.register(this._name, this);
-        wkInputs.__eventBus.on("wk-radio:change", data => {
-            if (data.inputid !== this.id && data.name === this._name) this.setValue(data.value);
-        });
-        this.setValue(this._value);
-    }
+    // zmienne wewnętrzne stanu
+    this._valid = true;
+    this._disabled = !!(this.el.getAttribute("disabled") !== null);
+    this._true_value = opts.true_value || true;
+    this._value = opts.value || "";
+    this._name = opts.name || "unknown";
 
     // udostępniane metody
-    isSelected = () => {
+    this.isSelected = () => {
         return this._value === this._true_value;
     };
-    toggle = () => {
+    this.toggle = () => {
         if (!this.isSelected() && !this._disabled) {
             this.setValue(this._true_value);
             wkInputs.__eventBus.emit("wk-radio:change", {
@@ -671,7 +638,7 @@ class WkRadio {
             });
         }
     };
-    setValue = v => {
+    this.setValue = v => {
         this._value = v;
         if (this.isSelected()) {
             this.el.classList.add("wk-radio-button--checked");
@@ -682,10 +649,10 @@ class WkRadio {
         this.validate();
     };
 
-    getDisabled = () => {
+    this.getDisabled = () => {
         return this._disabled;
     };
-    setDisabled = state => {
+    this.setDisabled = state => {
         if (state !== true) state = false;
         if (state === this._disabled) return;
         this._disabled = state;
@@ -700,10 +667,10 @@ class WkRadio {
         }
     };
 
-    getValid = () => {
+    this.getValid = () => {
         return this._valid;
     };
-    setValid = state => {
+    this.setValid = state => {
         if (state !== true) state = false;
         if (state === this._valid) return;
         this._valid = state;
@@ -714,72 +681,73 @@ class WkRadio {
         }
     };
 
-    validate = () => {
+    this.validate = () => {
         var r = this.wkInput.validate();
         this.setValid(r);
         return r;
     };
-    resetValidation = () => {
+    this.resetValidation = () => {
         this.wkInput.resetValidation();
         this.setValid(true);
     };
 
     // ekspozycja event busa
-    on = (event_name, handler) => {
+    this.on = (event_name, handler) => {
         return wkInputs.__inputGroups.eventBus.on(this._name + ":" + event_name, handler);
     };
-    once = (event_name, handler) => {
+    this.once = (event_name, handler) => {
         return wkInputs.__inputGroups.eventBus.once(this._name + ":" + event_name, handler);
     };
-    off = (event_name, handler) => {
+    this.off = (event_name, handler) => {
         return wkInputs.__inputGroups.eventBus.off(this._name + ":" + event_name, handler);
     };
+
+    // eventy wewnętrzne
+    this.label.addEventListener("click", () => {
+        this.toggle();
+    });
+    this.el.addEventListener("click", e => {
+        this.toggle();
+    });
+
+    // mounting
+    wkInputs.__inputGroups.register(this._name, this);
+    wkInputs.__eventBus.on("wk-radio:change", data => {
+        if (data.inputid !== this.id && data.name === this._name) this.setValue(data.value);
+    });
+    this.setValue(this._value);
 }
 
 //obsługa checkbox
-class WkCheckbox {
-    constructor(opts) {
-        // base setup
-        this.el = opts.el;
-        this.id = this.el.id;
+function WkCheckbox(opts) {
+    // base setup
+    this.el = opts.el;
+    this.id = this.el.id;
 
-        // montowanie uniwersalnych funkcji od wk-input
-        this.wkInput = new WkInput({
-            el: document.querySelector('.wk-input[data-inputid="' + this.id + '"]'),
-            el_id: this.id
-        });
+    // montowanie uniwersalnych funkcji od wk-input
+    this.wkInput = new WkInput({
+        el: document.querySelector('.wk-input[data-inputid="' + this.id + '"]'),
+        el_id: this.id
+    });
 
-        // zbieranie wszystkich elementów HTML, na których będą wykonywane operacje
-        this.main_wrapper = document.querySelector('.wk-checkbox[data-inputid="' + this.id + '"]');
-        this.label = document.querySelector('.wk-checkbox__label[data-inputid="' + this.id + '"]');
+    // zbieranie wszystkich elementów HTML, na których będą wykonywane operacje
+    this.main_wrapper = document.querySelector('.wk-checkbox[data-inputid="' + this.id + '"]');
+    this.label = document.querySelector('.wk-checkbox__label[data-inputid="' + this.id + '"]');
 
-        // zmienne wewnętrzne stanu
-        this._valid = true;
-        this._disabled = !!(this.el.getAttribute("disabled") !== null);
-        this._true_value = opts.true_value != undefined ? opts.true_value : true;
-        this._false_value = opts.false_value != undefined ? opts.false_value : false;
-        this._multiple = opts.multiple === true ? true : false;
-        this._value = opts.value || "";
-        this._name = opts.name || "unknown";
-
-        // eventy wewnętrzne
-        this.label.addEventListener("click", () => {
-            this.toggle();
-        });
-        this.el.addEventListener("click", e => {
-            this.toggle();
-        });
-
-        // mounting
-        wkInputs.__inputGroups.register(this._name, this);
-        this.setValue(this._value);
-    }
+    // zmienne wewnętrzne stanu
+    this._valid = true;
+    this._disabled = !!(this.el.getAttribute("disabled") !== null);
+    this._true_value = opts.true_value != undefined ? opts.true_value : true;
+    this._false_value = opts.false_value != undefined ? opts.false_value : false;
+    this._multiple = opts.multiple === true ? true : false;
+    this._value = opts.value || "";
+    this._name = opts.name || "unknown";
 
     // udostępniane metody
-    isSelected = () => {
+    this.isSelected = () => {
         return this._value === this._true_value;
     };
-    toggle = () => {
+    this.toggle = () => {
         if (this._disabled) return;
         if (!this.isSelected()) {
             this.setValue(this._true_value);
@@ -787,10 +755,10 @@ class WkCheckbox {
             this.setValue(this._false_value);
         }
     };
-    getValue = () => {
+    this.getValue = () => {
         return this._value;
     };
-    setValue = v => {
+    this.setValue = v => {
         this._value = v;
         if (this.isSelected()) {
             this.el.classList.add("wk-checkbox-button--checked");
@@ -813,10 +781,10 @@ class WkCheckbox {
         }
     };
 
-    getDisabled = () => {
+    this.getDisabled = () => {
         return this._disabled;
     };
-    setDisabled = state => {
+    this.setDisabled = state => {
         if (state !== true) state = false;
         if (state === this._disabled) return;
         this._disabled = state;
@@ -831,10 +799,10 @@ class WkCheckbox {
         }
     };
 
-    getValid = () => {
+    this.getValid = () => {
         return this._valid;
     };
-    setValid = state => {
+    this.setValid = state => {
         if (state !== true) state = false;
         if (state === this._valid) return;
         this._valid = state;
@@ -845,107 +813,81 @@ class WkCheckbox {
         }
     };
 
-    validate = () => {
+    this.validate = () => {
         var r = this.wkInput.validate();
         this.setValid(r);
         return r;
     };
-    resetValidation = () => {
+    this.resetValidation = () => {
         this.wkInput.resetValidation();
         this.setValid(true);
     };
 
     // ekspozycja event busa
-    on = (event_name, handler) => {
+    this.on = (event_name, handler) => {
         return wkInputs.__inputGroups.eventBus.on(this._name + ":" + event_name, handler);
     };
-    once = (event_name, handler) => {
+    this.once = (event_name, handler) => {
         return wkInputs.__inputGroups.eventBus.once(this._name + ":" + event_name, handler);
     };
-    off = (event_name, handler) => {
+    this.off = (event_name, handler) => {
         return wkInputs.__inputGroups.eventBus.off(this._name + ":" + event_name, handler);
     };
+
+    // eventy wewnętrzne
+    this.label.addEventListener("click", () => {
+        this.toggle();
+    });
+    this.el.addEventListener("click", e => {
+        this.toggle();
+    });
+
+    // mounting
+    wkInputs.__inputGroups.register(this._name, this);
+    this.setValue(this._value);
 }
 
 // obsługa pola wyboru
-class WkSelect {
-    constructor(opts) {
-        // base setup
-        this.el = opts.el;
-        this.id = this.el.id;
+function WkSelect(opts) {
+    // base setup
+    this.el = opts.el;
+    this.id = this.el.id;
 
-        // montowanie uniwersalnych funkcji od wk-input
-        this.wkInput = new WkInput({
-            el: document.querySelector('.wk-input[data-inputid="' + this.id + '"]'),
-            el_id: this.id
-        });
+    // montowanie uniwersalnych funkcji od wk-input
+    this.wkInput = new WkInput({
+        el: document.querySelector('.wk-input[data-inputid="' + this.id + '"]'),
+        el_id: this.id
+    });
 
-        // montowanie lokalnego event busa
-        this.eventBus = new WkInputsEventBus();
+    // montowanie lokalnego event busa
+    this.eventBus = new WkInputsEventBus();
 
-        // zbieranie wszystkich elementów HTML, na których będą wykonywane operacje
-        this.main_wrapper = document.querySelector('.wk-select[data-inputid="' + this.id + '"]');
-        this.sfield = document.querySelector('.wk-select__sfield[data-inputid="' + this.id + '"]');
-        this.selection = document.querySelector(".wk-select__selection#" + this.id);
-        this.icon = document.querySelector('.wk-select__icon[data-inputid="' + this.id + '"]');
-        this.placeholder = document.querySelector(
-            '.wk-select__placeholder[data-inputid="' + this.id + '"]'
-        );
+    // zbieranie wszystkich elementów HTML, na których będą wykonywane operacje
+    this.main_wrapper = document.querySelector('.wk-select[data-inputid="' + this.id + '"]');
+    this.sfield = document.querySelector('.wk-select__sfield[data-inputid="' + this.id + '"]');
+    this.selection = document.querySelector(".wk-select__selection#" + this.id);
+    this.icon = document.querySelector('.wk-select__icon[data-inputid="' + this.id + '"]');
+    this.placeholder = document.querySelector(
+        '.wk-select__placeholder[data-inputid="' + this.id + '"]'
+    );
 
-        // zmienne wewnętrzne stanu
-        this._focused = false;
-        this._valid = true;
-        this._value = this.el.getAttribute("data-value");
-        this._disabled = !!(this.el.getAttribute("data-disabled") == true);
-        this._items = [];
-        this._item_text = this.el.getAttribute("data-item-text") || "text";
-        this._item_value = this.el.getAttribute("data-item-value") || "value";
-        this._optslist = null;
-        this._popper = null;
-        this._items_list_opened = false;
-
-        // eventy wewnętrzne
-        this.main_wrapper.addEventListener("click", ev => {
-            ev.stopPropagation();
-            if (this._disabled) return;
-
-            this.eventBus.emit("click", {
-                input: this,
-                native_event: ev
-            });
-
-            this.toggleItemsList();
-        });
-        this.main_wrapper.addEventListener("focus", ev => {
-            this.setFocus(true);
-        });
-        this.main_wrapper.addEventListener("blur", ev => {
-            this.setFocus(false);
-        });
-        this.main_wrapper.addEventListener("keydown", ev => {
-            if (ev.keyCode === 32 && this._focused === true) {
-                this.toggleItemsList();
-            }
-            if ((ev.keyCode === 9 || ev.keyCode === 40) && this._items_list_opened === true) {
-                ev.preventDefault();
-                this._optslist.firstElementChild.focus();
-            }
-            if (ev.keyCode === 38 && this._items_list_opened === true) {
-                ev.preventDefault();
-                this._optslist.lastElementChild.focus();
-            }
-        });
-
-        // mounting
-        if (opts.items != undefined) this.setItems(opts.items);
-        this.setValue(this._value);
-    }
+    // zmienne wewnętrzne stanu
+    this._focused = false;
+    this._valid = true;
+    this._value = this.el.getAttribute("data-value");
+    this._disabled = !!(this.el.getAttribute("data-disabled") == true);
+    this._items = [];
+    this._item_text = this.el.getAttribute("data-item-text") || "text";
+    this._item_value = this.el.getAttribute("data-item-value") || "value";
+    this._optslist = null;
+    this._popper = null;
+    this._items_list_opened = false;
 
     // udostępniane metody
-    getValue = () => {
+    this.getValue = () => {
         return this._value;
     };
-    setValue = v => {
+    this.setValue = v => {
         this._value = v;
         this.wkInput.updateCounter(v.length);
         this.wkInput.setInputValue(v);
@@ -967,17 +909,17 @@ class WkSelect {
         this.validate();
     };
 
-    showPlaceholder = () => {
+    this.showPlaceholder = () => {
         this.placeholder.style.display = "block";
     };
-    hidePlaceholder = () => {
+    this.hidePlaceholder = () => {
         this.placeholder.style.display = "none";
     };
 
-    getFocus = () => {
+    this.getFocus = () => {
         return this._focused;
     };
-    setFocus = state => {
+    this.setFocus = state => {
         if (state !== true) state = false;
         if (state === this._focused || (state === true && this._disabled)) return;
         this._focused = state;
@@ -994,10 +936,10 @@ class WkSelect {
         }
     };
 
-    getDisabled = () => {
+    this.getDisabled = () => {
         return this._disabled;
     };
-    setDisabled = state => {
+    this.setDisabled = state => {
         if (state !== true) state = false;
         if (state === this._disabled) return;
         this._disabled = state;
@@ -1010,10 +952,10 @@ class WkSelect {
         }
     };
 
-    getValid = () => {
+    this.getValid = () => {
         return this._valid;
     };
-    setValid = state => {
+    this.setValid = state => {
         if (state !== true) state = false;
         if (state === this._valid) return;
         this._valid = state;
@@ -1024,32 +966,32 @@ class WkSelect {
         }
     };
 
-    validate = () => {
+    this.validate = () => {
         var r = this.wkInput.validate();
         this.setValid(r);
         return r;
     };
-    resetValidation = () => {
+    this.resetValidation = () => {
         this.wkInput.resetValidation();
         this.setValid(true);
     };
 
-    setItemText = v => {
+    this.setItemText = v => {
         this._item_text = v;
     };
-    setItemValue = v => {
+    this.setItemValue = v => {
         this._item_value = v;
     };
-    setItemDisabled = v => {
+    this.setItemDisabled = v => {
         this._item_disabled = v;
     };
 
-    setItems = items => {
+    this.setItems = items => {
         this._items = JSON.parse(JSON.stringify(items));
         this.renderItems();
     };
 
-    renderItems = () => {
+    this.renderItems = () => {
         const optel = document.createElement("div");
         optel.classList.add("wk-select__itemslist");
         optel.setAttribute("data-input", this.id);
@@ -1116,7 +1058,7 @@ class WkSelect {
         this._optslist = optel;
     };
 
-    openItemsList = () => {
+    this.openItemsList = () => {
         if (this._optslist === null || this._items_list_opened === true) return;
         document.body.appendChild(this._optslist);
         this._optslist.style.width = this.main_wrapper.offsetWidth + "px";
@@ -1142,7 +1084,7 @@ class WkSelect {
         this.icon.classList.add("wk-select__icon--active");
         document.body.addEventListener("click", this.clickOutsideHanlder);
     };
-    closeItemsList = () => {
+    this.closeItemsList = () => {
         if (this._items_list_opened !== true) return;
         this._popper.destroy();
         this._popper = null;
@@ -1151,22 +1093,58 @@ class WkSelect {
         this.icon.classList.remove("wk-select__icon--active");
         document.body.removeEventListener("click", this.clickOutsideHanlder);
     };
-    toggleItemsList = () => {
+    this.toggleItemsList = () => {
         if (this._items_list_opened) this.closeItemsList();
         else this.openItemsList();
     };
-    clickOutsideHanlder = () => {
+    this.clickOutsideHanlder = () => {
         if (this._items_list_opened) this.closeItemsList();
     };
 
     // ekspozycja event busa
-    on = (event_name, handler) => {
+    this.on = (event_name, handler) => {
         return this.eventBus.on(event_name, handler);
     };
-    once = (event_name, handler) => {
+    this.once = (event_name, handler) => {
         return this.eventBus.once(event_name, handler);
     };
-    off = (event_name, handler) => {
+    this.off = (event_name, handler) => {
         return this.eventBus.off(event_name, handler);
     };
+
+    // eventy wewnętrzne
+    this.main_wrapper.addEventListener("click", ev => {
+        ev.stopPropagation();
+        if (this._disabled) return;
+
+        this.eventBus.emit("click", {
+            input: this,
+            native_event: ev
+        });
+
+        this.toggleItemsList();
+    });
+    this.main_wrapper.addEventListener("focus", ev => {
+        this.setFocus(true);
+    });
+    this.main_wrapper.addEventListener("blur", ev => {
+        this.setFocus(false);
+    });
+    this.main_wrapper.addEventListener("keydown", ev => {
+        if (ev.keyCode === 32 && this._focused === true) {
+            this.toggleItemsList();
+        }
+        if ((ev.keyCode === 9 || ev.keyCode === 40) && this._items_list_opened === true) {
+            ev.preventDefault();
+            this._optslist.firstElementChild.focus();
+        }
+        if (ev.keyCode === 38 && this._items_list_opened === true) {
+            ev.preventDefault();
+            this._optslist.lastElementChild.focus();
+        }
+    });
+
+    // mounting
+    if (opts.items != undefined) this.setItems(opts.items);
+    this.setValue(this._value);
 }
