@@ -180,13 +180,73 @@
             name: 'cmulti',
             value: '',
             trueValue: 'kot',
-            multiple: true
+            multiple: true,
+            activeLabel: false
         } only %}
             {% block label %}
                 checbox label 4
             {% endblock %}
             {% block hint %}
                 hint checkbox 4
+            {% endblock %}
+        {% endembed %}
+
+        <br>
+        <br>
+
+        {% embed 'components/wk-checkbox.twig' with {
+            defaultErrorMsg: 'Proszę o prawidłowe wypełnienie tego pola',
+            id: 'switch2',
+            disabled: false,
+            name: 'cmulti',
+            value: '',
+            trueValue: 'pies',
+            multiple: true,
+            mode: 'switch',
+            activeLabel: true
+        } only %}
+            {% block label %}
+                Switch label 2
+            {% endblock %}
+            {% block hint %}
+                hint switch 2
+            {% endblock %}
+        {% endembed %}
+        {% embed 'components/wk-checkbox.twig' with {
+            defaultErrorMsg: 'Proszę o prawidłowe wypełnienie tego pola',
+            id: 'switch3',
+            disabled: false,
+            name: 'cmulti',
+            value: '',
+            trueValue: 'krowa',
+            multiple: true,
+            showSwitchIcons: true,
+            mode: 'switch'
+        } only %}
+            {% block label %}
+                Switch label 3
+            {% endblock %}
+            {% block hint %}
+                hint switch 3
+            {% endblock %}
+        {% endembed %}
+        {% embed 'components/wk-checkbox.twig' with {
+            defaultErrorMsg: 'Proszę o prawidłowe wypełnienie tego pola',
+            id: 'switch4',
+            disabled: false,
+            name: 'cmulti',
+            value: 'kot',
+            trueValue: 'kot',
+            multiple: true,
+            mode: 'switch',
+            showSwitchIcons: true,
+            disabled: true,
+        } only %}
+            {% block label %}
+                Switch label 4
+            {% endblock %}
+            {% block hint %}
+                hint switch 4
             {% endblock %}
         {% endembed %}
 
@@ -271,6 +331,9 @@
         });
         window.wkInputs.select.wkInput.addRule(function(v){
             return v == 'pl';
+        })
+        window.wkInputs.cbox2.wkInput.addRule(function(v) {
+            return v == 'pies';
         })
     </script>
 </body>

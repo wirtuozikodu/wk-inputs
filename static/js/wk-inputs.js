@@ -761,10 +761,22 @@ class WkCheckbox {
         this._multiple = opts.multiple === true ? true : false;
         this._value = opts.value || "";
         this._name = opts.name || "unknown";
+        this._mode = opts.mode || "checkbox";
+        this._active_label = true;
+
+        // managing interactive label
+        if (this._mode == "switch" || opts.activeLabel == "false") {
+            this.setActiveLabel(false);
+        }
+        if (opts.activeLabel == "true") {
+            this.setActiveLabel(true);
+        }
 
         // eventy wewnętrzne
         this.label.addEventListener("click", () => {
-            this.toggle();
+            if (this._active_label === true) {
+                this.toggle();
+            }
         });
         this.el.addEventListener("click", e => {
             this.toggle();
@@ -793,9 +805,17 @@ class WkCheckbox {
     setValue = v => {
         this._value = v;
         if (this.isSelected()) {
-            this.el.classList.add("wk-checkbox-button--checked");
+            if (this._mode === "switch") {
+                this.el.classList.add("wk-checkbox-switch--checked");
+            } else {
+                this.el.classList.add("wk-checkbox-button--checked");
+            }
         } else {
-            this.el.classList.remove("wk-checkbox-button--checked");
+            if (this._mode === "switch") {
+                this.el.classList.remove("wk-checkbox-switch--checked");
+            } else {
+                this.el.classList.remove("wk-checkbox-button--checked");
+            }
         }
 
         this.wkInput.setInputValue(v);
@@ -822,12 +842,34 @@ class WkCheckbox {
         this._disabled = state;
         if (this._disabled) {
             this.main_wrapper.classList.add("wk-checkbox--disabled");
-            this.el.classList.add("wk-checkbox-button--disabled");
+            if (this._mode === "switch") {
+                this.el.classList.add("wk-checkbox-switch--disabled");
+            } else {
+                this.el.classList.add("wk-checkbox-button--disabled");
+            }
             this.el.setAttribute("disabled", true);
         } else {
             this.main_wrapper.classList.remove("wk-checkbox--disabled");
-            this.el.classList.remove("wk-checkbox-button--disabled");
+            if (this._mode === "switch") {
+                this.el.classList.remove("wk-checkbox-switch--disabled");
+            } else {
+                this.el.classList.remove("wk-checkbox-button--disabled");
+            }
             this.el.removeAttribute("disabled");
+        }
+    };
+
+    getActiveLabel = () => {
+        return this._active_label;
+    };
+    setActiveLabel = state => {
+        if (typeof state != "boolean") return;
+        this._active_label = state;
+
+        if (state) {
+            this.label.classList.remove("wk-checkbox__label--inactive");
+        } else {
+            this.label.classList.add("wk-checkbox__label--inactive");
         }
     };
 
@@ -839,9 +881,17 @@ class WkCheckbox {
         if (state === this._valid) return;
         this._valid = state;
         if (this._valid) {
-            this.el.classList.remove("wk-checkbox-button--invalid");
+            if (this._mode === "switch") {
+                this.el.classList.remove("wk-checkbox-switch--invalid");
+            } else {
+                this.el.classList.remove("wk-checkbox-button--invalid");
+            }
         } else {
-            this.el.classList.add("wk-checkbox-button--invalid");
+            if (this._mode === "switch") {
+                this.el.classList.add("wk-checkbox-switch--invalid");
+            } else {
+                this.el.classList.add("wk-checkbox-button--invalid");
+            }
         }
     };
 

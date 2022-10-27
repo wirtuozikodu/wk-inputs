@@ -7,6 +7,12 @@
         cursor: not-allowed;
     }
 
+    &--switch {
+        .wk-checkbox__label {
+            padding-top: 4px;
+        }
+    }
+
     &-button {
         flex-shrink: 0;
         width: 20px;
@@ -110,9 +116,127 @@
         }
     }
 
+    &-switch {
+        flex-shrink: 0;
+        width: 52px;
+        height: 28px;
+        border-radius: 24px;
+        position: relative;
+        border: 2px solid rgba-to-rgb(rgba($SECONDARY, 0.15), #fff);
+        padding: 0;
+        background-color: transparent;
+        font-family: inherit;
+        font-size: inherit;
+        outline: none;
+        cursor: pointer;
+        overflow: hidden;
+        transition: all 0.3s ease;
+
+        &:hover {
+            box-shadow: 0px 0px 0px 7px rgba($SECONDARY, 0.05);
+            border-color: $PRIMARY;
+        }
+
+        &--disabled {
+            border-color: rgba-to-rgb(rgba($SECONDARY, 0.1), #fff) !important;
+            background-color: rgba-to-rgb(rgba($SECONDARY, 0.05), #fff) !important;
+
+            &:hover,
+            &:focus {
+                border-color: rgba-to-rgb(rgba($SECONDARY, 0.1), #fff) !important;
+                background-color: rgba-to-rgb(rgba($SECONDARY, 0.05), #fff) !important;
+                box-shadow: none;
+            }
+
+            .wk-checkbox-switch__fill {
+                background-color: #bbb !important;
+            }
+
+            .wk-checkbox-switch__icon {
+                color: rgba(black, .2) !important;
+            }
+        }
+
+        &--checked {
+            border-color: $PRIMARY;
+            background-color: rgba($PRIMARY, .4);
+
+            &:hover {
+                box-shadow: 0px 0px 0px 7px rgba($PRIMARY, 0.2);
+            }
+
+            .wk-checkbox-switch__fill {
+	            transform: translateX(24px);
+            }
+
+            &.wk-checkbox-switch--disabled {
+                border-color: rgba-to-rgb(rgba($PRIMARY, 0.5), #fff);
+
+                &:hover,
+                &:focus {
+                    box-shadow: none;
+                }
+
+                .wk-checkbox-switch__fill {
+                    background-color: rgba-to-rgb(rgba($PRIMARY, 0.5), #fff);
+                }
+            }
+        }
+
+        &--invalid {
+            border-color: $ERROR;
+
+            &:hover,
+            &:focus {
+                box-shadow: 0px 0px 0px 7px rgba($ERROR, 0.15);
+                border-color: $ERROR;
+            }
+
+            .wk-checkbox-switch__fill {
+	            background-color: $ERROR;
+            }
+
+            .wk-checkbox-switch__icon--off {
+                color: rgba($ERROR, .3);
+            }
+            
+        }
+
+        &__fill {
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 20px;
+            height: 20px;
+            border-radius: 28px;
+            background-color: $PRIMARY;
+            transition: transform 0.15s ease;
+        }
+
+        &__icon {
+            position: absolute;
+            top: 3px;
+            width: 18px;
+            height: 18px;
+
+            &--off {
+                right: 4px;
+                color: rgba($PRIMARY, .4);
+            }
+            &--on {
+                left: 4px;
+                color: white;
+            }
+        }
+    }
+
     &__label {
         padding-left: 8px;
         line-height: 20px;
         cursor: pointer;
+
+        &--inactive {
+            cursor: default;
+        }
     }
 }
