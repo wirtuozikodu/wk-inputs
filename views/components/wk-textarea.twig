@@ -11,7 +11,7 @@
 >
 
     {% if block('prepend') is defined  %}
-    <div class="wk-textarea__prepend">
+    <div class="wk-textarea__prepend" data-inputid="{{ id }}">
         {{ block('prepend')|raw }}
     </div>
     {% endif %}
@@ -47,7 +47,7 @@
     </div>
     {% endif %}
     {% if block('append') is defined  %}
-    <div class="wk-textarea__append">
+    <div class="wk-textarea__append" data-inputid="{{ id }}">
         {{ block('append')|raw }}
     </div>
     {% endif %}

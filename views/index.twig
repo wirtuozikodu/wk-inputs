@@ -137,6 +137,19 @@
                 hint checkbox1
             {% endblock %}
         {% endembed %}
+        {% embed 'components/wk-checkbox.twig' with {
+            defaultErrorMsg: 'Proszę o prawidłowe wypełnienie tego pola',
+            id: 'cbox11',
+            disabled: false,
+            name: 'cbox',
+            value: 'idk',
+            trueValue: 'moze',
+            falseValue: 'idk'
+        } only %}
+            {% block label %}
+                checbox radio 2
+            {% endblock %}
+        {% endembed %}
 
         <br>
         <br>
@@ -179,7 +192,6 @@
             disabled: false,
             name: 'cmulti',
             value: '',
-            trueValue: 'kot',
             multiple: true,
             activeLabel: false
         } only %}
@@ -198,7 +210,7 @@
             defaultErrorMsg: 'Proszę o prawidłowe wypełnienie tego pola',
             id: 'switch2',
             disabled: false,
-            name: 'cmulti',
+            name: 'switch',
             value: '',
             trueValue: 'pies',
             multiple: true,
@@ -216,7 +228,7 @@
             defaultErrorMsg: 'Proszę o prawidłowe wypełnienie tego pola',
             id: 'switch3',
             disabled: false,
-            name: 'cmulti',
+            name: 'switch',
             value: '',
             trueValue: 'krowa',
             multiple: true,
@@ -234,7 +246,7 @@
             defaultErrorMsg: 'Proszę o prawidłowe wypełnienie tego pola',
             id: 'switch4',
             disabled: false,
-            name: 'cmulti',
+            name: 'switch',
             value: 'kot',
             trueValue: 'kot',
             multiple: true,
@@ -307,15 +319,24 @@
             {% block hint %}
                 Pomocna wskazówka
             {% endblock %}
-        {% endembed %}
+        {% endembed %} 
     </div>
 
     <script>
-        window.wkInputs.text_field.on('keydown', function(e){
+        window.wkInputs.text_field.on('click:prepend', function(e){
             console.log(e);
         });
+        wkInputs.text_field.addRule(v => {
+            if(v.length === 3){
+                return "Tylko nie 3!"
+            }
+            if(v.length === 5){
+                return "Tylko nie 5!"
+            }
+            return true;
+        })
 
-        window.wkInputs.radio3.on('change', function(e){
+         window.wkInputs.radio3.on('change', function(e){
             console.log(e);
         });
 
@@ -325,16 +346,18 @@
         window.wkInputs.cbox2.on('change', function(e){
             console.log(e);
         });
+        window.wkInputs.cbox2.addRule(function(v) {
+            return v == 'pies';
+        })
+        window.wkInputs.__inputGroups.on("cmulti:change", e => console.log(e));
 
         window.wkInputs.select.on('change', function(e){
             console.log(e);
         });
-        window.wkInputs.select.wkInput.addRule(function(v){
+        window.wkInputs.select.addRule(function(v){
             return v == 'pl';
         })
-        window.wkInputs.cbox2.wkInput.addRule(function(v) {
-            return v == 'pies';
-        })
+         
     </script>
 </body>
 </html>

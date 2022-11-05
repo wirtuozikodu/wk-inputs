@@ -57,7 +57,7 @@
             el: document.getElementById('{{ id }}'),
             true_value: '{{ trueValue is defined ? trueValue : "true" }}',
             false_value: '{{ falseValue is defined ? falseValue : "false" }}',
-            multiple: "{{ multiple is same as (true) ? 'true' : 'false' }}",
+            multiple: JSON.parse("{{ multiple is same as (true) ? 'true' : 'false' }}"),
             value: '{{ value }}',
             name: '{{ name }}',
             mode: '{{ mode ? mode : "checkbox"}}',

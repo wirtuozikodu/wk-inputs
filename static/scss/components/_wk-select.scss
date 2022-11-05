@@ -109,7 +109,7 @@
         cursor: pointer;
 
         &:hover,
-        &:focus {
+        &--focused {
             background-color: rgba-to-rgb(rgba(#000, 0.04), #fff);
         }
 
@@ -118,12 +118,8 @@
             font-weight: $FONT_WEIGHT_BOLD;
 
             &:hover,
-            &:focus {
+            &.wk-select__item--focused {
                 background-color: rgba-to-rgb(rgba($PRIMARY, 0.1), #fff);
-            }
-
-            &:hover,
-            &:focus {
                 color: rgba-to-rgb(rgba($PRIMARY, 1), #000);
             }
         }
@@ -133,7 +129,7 @@
         //     color: rgba-to-rgb(rgba(#000, 0.3), #fff);
 
         //     &:hover,
-        //     &:focus {
+        //     &--focused {
         //         background-color: rgba-to-rgb(rgba(#000, 0.1), #fff);
         //         cursor: not-allowed;
         //     }
