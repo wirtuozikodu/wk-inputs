@@ -1,6 +1,7 @@
 # WkInputs (Twig)
 
-Wersja 2.0.0
+_Wersja 2.0.0_
+
 Kolekcja interaktywnych komponentów formularza w formie komponentów Twig i w oparciu o czysty JavaScript.
 
 <h2  id="spis-tresci">Spis treści</h2>
