@@ -61,7 +61,7 @@
             value: '{{ value }}',
             name: '{{ name }}',
             mode: '{{ mode ? mode : "checkbox"}}',
-            activeLabel: "{{ activeLabel is defined ? activeLabel is same as (true) ? 'true' : 'false' }}"
+            ignore_label_click: JSON.parse("{{ ignoreLabelClick is defined ? ( ignoreLabelClick is same as (true) ? 'true' : 'false' ) : '{}' }}")
         });
     })();
 </script>

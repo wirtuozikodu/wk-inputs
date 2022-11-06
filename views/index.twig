@@ -193,7 +193,7 @@
             name: 'cmulti',
             value: '',
             multiple: true,
-            activeLabel: false
+            ignoreLabelClick: true
         } only %}
             {% block label %}
                 checbox label 4
@@ -215,7 +215,7 @@
             trueValue: 'pies',
             multiple: true,
             mode: 'switch',
-            activeLabel: true
+            ignoreLabelClick: false
         } only %}
             {% block label %}
                 Switch label 2
@@ -336,7 +336,7 @@
             return true;
         })
 
-         window.wkInputs.radio3.on('change', function(e){
+        window.wkInputs.radio3.on('change', function(e){
             console.log(e);
         });
 

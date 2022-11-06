@@ -959,6 +959,9 @@ class WkCheckbox extends WkInput {
                 this.value = this.false_value;
         });
         this._value = opts.value || "";
+        if (this._ignore_label_click === true) {
+            this._label_el.classList.add("wk-checkbox__label--inactive");
+        }
     }
 
     // gettery
@@ -1082,6 +1085,11 @@ class WkCheckbox extends WkInput {
     set ignore_label_click(state) {
         if (state !== true) state = false;
         if (state === this.ignore_label_click) return;
+        if (state === true) {
+            this._label_el.classList.add("wk-checkbox__label--inactive");
+        } else {
+            this._label_el.classList.remove("wk-checkbox__label--inactive");
+        }
         this._ignore_label_click = state;
     }
     set name(str) {

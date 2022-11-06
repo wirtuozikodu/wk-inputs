@@ -9,7 +9,7 @@
 
     &--switch {
         .wk-checkbox__label {
-            padding-top: 4px;
+            padding-top: 2px;
         }
     }
 
@@ -118,13 +118,13 @@
 
     &-switch {
         flex-shrink: 0;
-        width: 52px;
-        height: 28px;
+        width: 44px;
+        height: 24px;
         border-radius: 24px;
         position: relative;
         border: 2px solid rgba-to-rgb(rgba($SECONDARY, 0.15), #fff);
         padding: 0;
-        background-color: transparent;
+        background-color: white;
         font-family: inherit;
         font-size: inherit;
         outline: none;
@@ -132,7 +132,8 @@
         overflow: hidden;
         transition: all 0.3s ease;
 
-        &:hover {
+        &:hover,
+        &:focus {
             box-shadow: 0px 0px 0px 7px rgba($SECONDARY, 0.05);
             border-color: $PRIMARY;
         }
@@ -149,24 +150,27 @@
             }
 
             .wk-checkbox-switch__fill {
-                background-color: #bbb !important;
+                background-color: rgba-to-rgb(rgba($SECONDARY, 0.2), #fff) !important;
             }
 
             .wk-checkbox-switch__icon {
-                color: rgba(black, .2) !important;
+                color: rgba-to-rgb(rgba($SECONDARY, 0.2), #fff)
             }
         }
 
         &--checked {
             border-color: $PRIMARY;
-            background-color: rgba($PRIMARY, .4);
+            background-color: white;
 
-            &:hover {
+            &:hover,
+            &:focus {
                 box-shadow: 0px 0px 0px 7px rgba($PRIMARY, 0.2);
             }
 
             .wk-checkbox-switch__fill {
-	            transform: translateX(24px);
+                background-color: $PRIMARY;
+	            transform: translateX(20px);
+                box-shadow: 0px 0px 0px 24px rgba($PRIMARY, 0.05);
             }
 
             &.wk-checkbox-switch--disabled {
@@ -206,26 +210,26 @@
             position: absolute;
             top: 2px;
             left: 2px;
-            width: 20px;
-            height: 20px;
+            width: 16px;
+            height: 16px;
             border-radius: 28px;
-            background-color: $PRIMARY;
+            background-color: rgba-to-rgb(rgba($SECONDARY, 0.3), #fff);
             transition: transform 0.15s ease;
         }
 
         &__icon {
             position: absolute;
-            top: 3px;
-            width: 18px;
-            height: 18px;
+            top: 2px;
+            width: 16px;
+            height: 16px;
 
             &--off {
-                right: 4px;
-                color: rgba($PRIMARY, .4);
+                right: 2.5px;
+                color: rgba-to-rgb(rgba($SECONDARY, 0.3), #fff);
             }
             &--on {
-                left: 4px;
-                color: white;
+                left: 2.5px;
+                color: rgba-to-rgb(rgba($PRIMARY, 0.5), #fff);
             }
         }
     }
