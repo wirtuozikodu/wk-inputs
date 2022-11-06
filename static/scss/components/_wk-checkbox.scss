@@ -4,7 +4,11 @@
 
     &--disabled {
         color: rgba-to-rgb(rgba($SECONDARY, 0.4), #fff);
+
         cursor: not-allowed;
+        & * {
+            cursor: not-allowed !important;
+        }
     }
 
     &--switch {

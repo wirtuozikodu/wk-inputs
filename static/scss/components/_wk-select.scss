@@ -31,7 +31,11 @@
         border-color: rgba-to-rgb(rgba($SECONDARY, 0.1), #fff);
         background-color: rgba-to-rgb(rgba($SECONDARY, 0.05), #fff);
         color: rgba-to-rgb(rgba($SECONDARY, 0.4), #fff);
+        
         cursor: not-allowed;
+        & * {
+            cursor: not-allowed !important;
+        }
     }
 
     &__prefix,
