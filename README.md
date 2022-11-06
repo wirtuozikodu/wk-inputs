@@ -259,7 +259,8 @@ Wszystkie metody obiektu zamontowanego dostępne są pod `window.wkInputs.{ID}`.
 -   `validate()` - wykonuje zdefiniowane testy i zwraca Boolean, czy zawartość pola jest poprawna czy nie; pole zostanie też automatycznie ustawione w odpowiedni stan błędu
 -   `resetValidation()` - pozwala na zresetowanie stanu błędu pola tekstowego
 -   `on(event, funkcja)` - pozwala na przechwytywanie eventów rozgłaszanych przez element, tj:
--   <h3  id="wktextarea-eventy">Emitowane zdarzenia</h3>
+
+<h3  id="wktextarea-eventy">Emitowane zdarzenia</h3>
 
 -   `click` - kliknięcie w element
     -   `click:prepend` - kliknięcie w zawartość slotu prepend,
