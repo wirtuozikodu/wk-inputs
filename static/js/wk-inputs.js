@@ -1484,8 +1484,21 @@ class WkSelect extends WkInput {
 
     adjustOptsListScrollToActiveItem() {
         if (!this._current_focused_item) return;
-        setTimeout(() => {
-            this._current_focused_item.scrollIntoView({ behavior: "smooth" });
-        }, 10);
+
+        function optionIsVisible(el, c) {
+            const cTop = c.scrollTop;
+            const cBottom = cTop + c.clientHeight;
+
+            const eTop = el.offsetTop;
+            const eBottom = eTop + el.clientHeight;
+
+            return eTop >= cTop && eBottom <= cBottom;
+        }
+
+        if (!optionIsVisible(this._current_focused_item, this._optslist)) {
+            setTimeout(() => {
+                this._current_focused_item.scrollIntoView({ behavior: "smooth" });
+            }, 10);
+        }
     }
 }
