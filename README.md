@@ -466,4 +466,3 @@ Propsy komponentu WkTextField to:
 -   `focus` - 'skupienie' na elemencie
 -   `blur` - przerwanie 'skupienia'
 -   `change` - zmiana stanu (wartości)
--   `change` - zmiana wartości

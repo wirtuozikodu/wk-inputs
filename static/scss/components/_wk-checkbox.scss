@@ -34,7 +34,7 @@
         transition: all 0.3s ease;
 
         &:hover,
-        &:focus {
+        &:focus-visible {
             box-shadow: 0px 0px 0px 7px rgba($SECONDARY, 0.05);
             border-color: $PRIMARY;
         }
@@ -44,7 +44,7 @@
             background-color: rgba-to-rgb(rgba($SECONDARY, 0.05), #fff);
 
             &:hover,
-            &:focus {
+            &:focus-visible {
                 border-color: rgba-to-rgb(rgba($SECONDARY, 0.1), #fff);
                 background-color: rgba-to-rgb(rgba($SECONDARY, 0.05), #fff);
                 box-shadow: none;
@@ -55,7 +55,7 @@
             border-color: $PRIMARY;
 
             &:hover,
-            &:focus {
+            &:focus-visible {
                 box-shadow: 0px 0px 0px 7px rgba($PRIMARY, 0.2);
             }
 
@@ -72,7 +72,7 @@
                 border-color: rgba-to-rgb(rgba($PRIMARY, 0.5), #fff);
 
                 &:hover,
-                &:focus {
+                &:focus-visible {
                     box-shadow: none;
                 }
 
@@ -86,7 +86,7 @@
             border-color: $ERROR;
 
             &:hover,
-            &:focus {
+            &:focus-visible {
                 box-shadow: 0px 0px 0px 7px rgba($ERROR, 0.15);
                 border-color: $ERROR;
             }
@@ -137,7 +137,7 @@
         transition: all 0.3s ease;
 
         &:hover,
-        &:focus {
+        &:focus-visible {
             box-shadow: 0px 0px 0px 7px rgba($SECONDARY, 0.05);
             border-color: $PRIMARY;
         }
@@ -147,7 +147,7 @@
             background-color: rgba-to-rgb(rgba($SECONDARY, 0.05), #fff) !important;
 
             &:hover,
-            &:focus {
+            &:focus-visible {
                 border-color: rgba-to-rgb(rgba($SECONDARY, 0.1), #fff) !important;
                 background-color: rgba-to-rgb(rgba($SECONDARY, 0.05), #fff) !important;
                 box-shadow: none;
@@ -167,7 +167,7 @@
             background-color: white;
 
             &:hover,
-            &:focus {
+            &:focus-visible {
                 box-shadow: 0px 0px 0px 7px rgba($PRIMARY, 0.2);
             }
 
@@ -181,7 +181,7 @@
                 border-color: rgba-to-rgb(rgba($PRIMARY, 0.5), #fff);
 
                 &:hover,
-                &:focus {
+                &:focus-visible {
                     box-shadow: none;
                 }
 
@@ -195,7 +195,7 @@
             border-color: $ERROR;
 
             &:hover,
-            &:focus {
+            &:focus-visible {
                 box-shadow: 0px 0px 0px 7px rgba($ERROR, 0.15);
                 border-color: $ERROR;
             }

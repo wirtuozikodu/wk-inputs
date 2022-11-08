@@ -12,29 +12,34 @@
 
     <div style="padding: 64px; max-width: 600px; margin: 0 auto;">
         <h1>WK-Inputs</h1>
+
+        <br>
+        <br>
+
         {% embed 'components/wk-text-field.twig' with {
             showAsterisk: true,
-            defaultErrorMsg: 'Proszę o prawidłowe wypełnienie tego pola',
+            defaultErrorMsg: 'Proszę wprowadzić poprawną wartość',
             counterValue: 31,
-            id: 'text_field',
+            id: 'wk_text_field_1',
             disabled: false,
             name: 'name',
-            value: '',
-            placeholder: 'Text Field',
-            prefix: 'Prefix:',
+            type: 'text',
+            value: 'Domyślna wartość',
+            placeholder: 'Placeholder',
+            prefix: 'Prefix',
             suffix: 'Suffix'
         } only %}
             {% block label %}
-                Label inputa
+                WkTextField
             {% endblock %}
             {% block hint %}
                 Pomocna wskazówka
             {% endblock %}
             {% block prepend %}
-                PREPEND SLOT
+                PREPEND
             {% endblock %}
             {% block append %}
-                APPEND SLOT
+                APPEND
             {% endblock %}
         {% endembed %}
 
@@ -43,29 +48,29 @@
 
         {% embed 'components/wk-textarea.twig' with {
             showAsterisk: true,
-            defaultErrorMsg: 'Proszę o prawidłowe wypełnienie tego pola',
-            counterValue: 31,
-            id: 'textarea',
+            defaultErrorMsg: 'Proszę wprowadzić poprawną wartość',
+            counterValue: 127,
+            id: 'wk_textarea_1',
             disabled: false,
             name: 'message',
-            value: '',
-            placeholder: 'Text Area',
-            prefix: 'Prefix:',
+            value: 'Domyślna wartość',
+            placeholder: 'Placeholder',
+            prefix: 'Prefix',
             suffix: 'Suffix',
-            rows: 4,
+            rows: 3,
             autogrow: false
         } only %}
             {% block label %}
-                Label textarea
+                WkTextarea
             {% endblock %}
             {% block hint %}
                 Pomocna wskazówka
             {% endblock %}
             {% block prepend %}
-                PREPEND SLOT
+                PREPEND
             {% endblock %}
             {% block append %}
-                APPEND SLOT
+                APPEND
             {% endblock %}
         {% endembed %}
 
@@ -73,48 +78,50 @@
         <br>
 
         {% embed 'components/wk-radio.twig' with {
-            defaultErrorMsg: 'Proszę o prawidłowe wypełnienie tego pola',
-            id: 'radio1',
+            defaultErrorMsg: 'Proszę o wybranie prawidłowej opcji',
+            id: 'wk_radio_1',
             disabled: false,
             name: 'radio',
-            value: '',
-            trueValue: '1'
+            value: 'radio1',
+            trueValue: 'radio1'
         } only %}
             {% block label %}
-                Label radio 1
+                WkRadio 1
             {% endblock %}
             {% block hint %}
-                hint radio1
+                Pomocna wskazówka
             {% endblock %}
         {% endembed %}
+
         {% embed 'components/wk-radio.twig' with {
-            defaultErrorMsg: 'Proszę o prawidłowe wypełnienie tego pola',
-            id: 'radio2',
-            disabled: true,
-            name: 'radio',
-            value: '',
-            trueValue: '2'
-        } only %}
-            {% block label %}
-                Label radio 2
-            {% endblock %}
-            {% block hint %}
-                hint radio2
-            {% endblock %}
-        {% endembed %}
-        {% embed 'components/wk-radio.twig' with {
-            defaultErrorMsg: 'Proszę o prawidłowe wypełnienie tego pola',
-            id: 'radio3',
+            defaultErrorMsg: 'Proszę o wybranie prawidłowej opcji',
+            id: 'wk_radio_2',
             disabled: false,
             name: 'radio',
-            value: '',
-            trueValue: '3'
+            value: 'radio1',
+            trueValue: 'radio2'
         } only %}
             {% block label %}
-                Label radio 3
+                WkRadio 2
             {% endblock %}
             {% block hint %}
-                hint radio3
+                Pomocna wskazówka
+            {% endblock %}
+        {% endembed %}
+
+        {% embed 'components/wk-radio.twig' with {
+            defaultErrorMsg: 'Proszę o wybranie prawidłowej opcji',
+            id: 'wk_radio_3',
+            disabled: false,
+            name: 'radio',
+            value: 'radio1',
+            trueValue: 'radio3'
+        } only %}
+            {% block label %}
+                WkRadio 3
+            {% endblock %}
+            {% block hint %}
+                Pomocna wskazówka
             {% endblock %}
         {% endembed %}
 
@@ -122,143 +129,117 @@
         <br>
 
         {% embed 'components/wk-checkbox.twig' with {
-            defaultErrorMsg: 'Proszę o prawidłowe wypełnienie tego pola',
-            id: 'cbox1',
+            defaultErrorMsg: 'Proszę o wybranie prawidłowej opcji',
+            id: 'wk_checkbox_a1',
             disabled: false,
-            name: 'cbox',
-            value: 'nie',
+            name: 'checkbox',
+            value: 'tak',
+            trueValue: 'tak',
+            falseValue: 'nie',
+            multiple: true
+        } only %}
+            {% block label %}
+                WkCheckbox 1
+            {% endblock %}
+            {% block hint %}
+                Pomocna wskazówka
+            {% endblock %}
+        {% endembed %}
+
+        {% embed 'components/wk-checkbox.twig' with {
+            defaultErrorMsg: 'Proszę o wybranie prawidłowej opcji',
+            id: 'wk_checkbox_a2',
+            disabled: false,
+            name: 'checkbox',
+            value: 'tak',
+            trueValue: 'tak',
+            falseValue: 'nie',
+            ignoreLabelClick: true,
+            multiple: true
+        } only %}
+            {% block label %}
+                WkCheckbox 2
+            {% endblock %}
+            {% block hint %}
+                Tutaj label nie działa
+            {% endblock %}
+        {% endembed %}
+
+        {% embed 'components/wk-checkbox.twig' with {
+            defaultErrorMsg: 'Proszę o wybranie prawidłowej opcji',
+            id: 'wk_checkbox_a3',
+            disabled: true,
+            name: 'checkbox',
+            value: 'tak',
             trueValue: 'tak',
             falseValue: 'nie'
         } only %}
             {% block label %}
-                checbox radio 1
+                WkCheckbox 3
             {% endblock %}
             {% block hint %}
-                hint checkbox1
+                Pomocna wskazówka
             {% endblock %}
         {% endembed %}
-        {% embed 'components/wk-checkbox.twig' with {
-            defaultErrorMsg: 'Proszę o prawidłowe wypełnienie tego pola',
-            id: 'cbox11',
-            disabled: false,
-            name: 'cbox',
-            value: 'idk',
-            trueValue: 'moze',
-            falseValue: 'idk'
-        } only %}
-            {% block label %}
-                checbox radio 2
-            {% endblock %}
-        {% endembed %}
-
+        
         <br>
         <br>
 
         {% embed 'components/wk-checkbox.twig' with {
-            defaultErrorMsg: 'Proszę o prawidłowe wypełnienie tego pola',
-            id: 'cbox2',
-            disabled: false,
-            name: 'cmulti',
-            value: '',
-            trueValue: 'pies',
-            multiple: true
-        } only %}
-            {% block label %}
-                checbox label 2
-            {% endblock %}
-            {% block hint %}
-                hint checkbox 2
-            {% endblock %}
-        {% endembed %}
-        {% embed 'components/wk-checkbox.twig' with {
-            defaultErrorMsg: 'Proszę o prawidłowe wypełnienie tego pola',
-            id: 'cbox3',
-            disabled: false,
-            name: 'cmulti',
-            value: '',
-            trueValue: 'krowa',
-            multiple: true
-        } only %}
-            {% block label %}
-                checbox label 3
-            {% endblock %}
-            {% block hint %}
-                hint checkbox 3
-            {% endblock %}
-        {% endembed %}
-        {% embed 'components/wk-checkbox.twig' with {
-            defaultErrorMsg: 'Proszę o prawidłowe wypełnienie tego pola',
-            id: 'cbox4',
-            disabled: false,
-            name: 'cmulti',
-            value: '',
+            defaultErrorMsg: 'Proszę o wybranie prawidłowej opcji',
+            id: 'wk_checkbox_b1',
+            disabled: true,
+            name: 'switch',
+            value: 'tak',
+            trueValue: 'tak',
+            falseValue: 'nie',
             multiple: true,
-            ignoreLabelClick: true
+            mode: 'switch'
         } only %}
             {% block label %}
-                checbox label 4
+                WkSwitch 1
             {% endblock %}
             {% block hint %}
-                hint checkbox 4
+                Pomocna wskazówka
             {% endblock %}
         {% endembed %}
 
-        <br>
-        <br>
-
         {% embed 'components/wk-checkbox.twig' with {
-            defaultErrorMsg: 'Proszę o prawidłowe wypełnienie tego pola',
-            id: 'switch2',
+            defaultErrorMsg: 'Proszę o wybranie prawidłowej opcji',
+            id: 'wk_checkbox_b2',
             disabled: false,
             name: 'switch',
-            value: '',
-            trueValue: 'pies',
+            value: 'nie',
+            trueValue: 'tak',
+            falseValue: 'nie',
+            multiple: true,
+            mode: 'switch'
+        } only %}
+            {% block label %}
+                WkSwitch 2
+            {% endblock %}
+            {% block hint %}
+                Pomocna wskazówka
+            {% endblock %}
+        {% endembed %}
+
+        {% embed 'components/wk-checkbox.twig' with {
+            defaultErrorMsg: 'Proszę o wybranie prawidłowej opcji',
+            id: 'wk_checkbox_b3',
+            disabled: false,
+            name: 'switch',
+            value: 'nie',
+            trueValue: 'tak',
+            falseValue: 'nie',
             multiple: true,
             mode: 'switch',
             ignoreLabelClick: false
         } only %}
             {% block label %}
-                Switch label 2
+                WkSwitch 3
             {% endblock %}
             {% block hint %}
-                hint switch 2
-            {% endblock %}
-        {% endembed %}
-        {% embed 'components/wk-checkbox.twig' with {
-            defaultErrorMsg: 'Proszę o prawidłowe wypełnienie tego pola',
-            id: 'switch3',
-            disabled: false,
-            name: 'switch',
-            value: '',
-            trueValue: 'krowa',
-            multiple: true,
-            showSwitchIcons: true,
-            mode: 'switch'
-        } only %}
-            {% block label %}
-                Switch label 3
-            {% endblock %}
-            {% block hint %}
-                hint switch 3
-            {% endblock %}
-        {% endembed %}
-        {% embed 'components/wk-checkbox.twig' with {
-            defaultErrorMsg: 'Proszę o prawidłowe wypełnienie tego pola',
-            id: 'switch4',
-            disabled: false,
-            name: 'switch',
-            value: 'kot',
-            trueValue: 'kot',
-            multiple: true,
-            mode: 'switch',
-            showSwitchIcons: true,
-            disabled: true,
-        } only %}
-            {% block label %}
-                Switch label 4
-            {% endblock %}
-            {% block hint %}
-                hint switch 4
+                Tutaj label działa
             {% endblock %}
         {% endembed %}
 
@@ -267,97 +248,155 @@
 
         {% embed 'components/wk-select.twig' with {
             showAsterisk: true,
-            defaultErrorMsg: 'Proszę o prawidłowe wypełnienie tego pola',
-            id: 'select',
+            defaultErrorMsg: 'Proszę o wybranie prawidłowej opcji',
+            id: 'wk_select_1',
             disabled: false,
             value: '',
-            placeholder: 'Select',
-            prefix: 'Prefix:',
+            placeholder: 'Wybierz',
+            prefix: 'Prefix',
             suffix: 'Suffix',
             itemText: 'text',
             itemValue: 'value',
-            itemDisabled: 'disabled',
             items: [
                 {
-                    text: 'France',
-                    value: 'fr'
+                    text: 'Sok jabłkowy',
+                    value: 'sok'
                 },
                 {
-                    text: 'Germany',
-                    value: 'de'
+                    text: 'Zielona herbata',
+                    value: 'herbata'
                 },
                 {
-                    text: 'Poland',
-                    value: 'pl'
-                },
-                {
-                    text: "United Kingdom",
-                    value: "uk"
-                },
-                {
-                    text: 'Ukraine',
-                    value: 'ua'
-                },
-                {
-                    text: 'Russia',
-                    value: 'ru'
-                },
-                {
-                    text: 'Lithuania',
-                    value: 'lt',
-                    disabled: true
-                },
-                {
-                    text: 'Slovakia',
-                    value: 'sk'
-                },
+                    text: 'Piwo pszeniczne',
+                    value: 'piwo'
+                }
             ]
         } only %}
             {% block label %}
-                Label selecta
+                WkSelect
             {% endblock %}
             {% block hint %}
                 Pomocna wskazówka
             {% endblock %}
-        {% endembed %} 
+        {% endembed %}
     </div>
 
     <script>
-        window.wkInputs.text_field.on('click:prepend', function(e){
-            console.log(e);
+
+        // WkTextField
+        window.wkInputs.wk_text_field_1.on('click', e => {
+            console.log('Focused: ' + e.element.focused);
+            console.log('Disabled: ' + e.element.disabled);
         });
-        wkInputs.text_field.addRule(v => {
-            if(v.length === 3){
-                return "Tylko nie 3!"
-            }
-            if(v.length === 5){
-                return "Tylko nie 5!"
-            }
+        window.wkInputs.wk_text_field_1.on('click:prepend', e => {
+            console.log('"Greetings" - TextField\'s prepend, 2022');
+        });
+        window.wkInputs.wk_text_field_1.on('click:append', e => {
+            console.log('"Greetings" - TextField\'s append, 2022');
+        });
+        window.wkInputs.wk_text_field_1.on('focus', e => {
+            console.log('Focused: ' + e.element.focused);
+        });
+        window.wkInputs.wk_text_field_1.on('blur', e => {
+            console.log('Focused: ' + e.element.focused);
+        });
+        window.wkInputs.wk_text_field_1.on('keydown', e => {
+            console.log('Key: ' + e.native_event.key);
+        });
+        window.wkInputs.wk_text_field_1.on('keyup', e => {
+            console.log('Released: ' + e.native_event.key);
+        });
+        window.wkInputs.wk_text_field_1.on('input', e => {
+            console.log('Value: ' + e.element.value);
+        });
+
+        window.wkInputs.wk_text_field_1.addRule(v => {
+            if(v.length == 0 || v == '') return;
+            if(v.length < 3) return 'Powiedz coś więcej, 3 znaczki to tak dużo?';
             return true;
-        })
-
-        window.wkInputs.radio3.on('change', function(e){
-            console.log(e);
         });
 
-        window.wkInputs.cbox1.on('change', function(e){
-            console.log(e);
+        // WkTextarea
+        window.wkInputs.wk_textarea_1.on('click', e => {
+            console.log('Focused: ' + e.element.focused);
+            console.log('Disabled: ' + e.element.disabled);
         });
-        window.wkInputs.cbox2.on('change', function(e){
-            console.log(e);
+        window.wkInputs.wk_textarea_1.on('click:prepend', e => {
+            console.log('"Greetings" - Textarea\'s prepend, 2022');
         });
-        window.wkInputs.cbox2.addRule(function(v) {
-            return v == 'pies';
-        })
-        window.wkInputs.__inputGroups.on("cmulti:change", e => console.log(e));
+        window.wkInputs.wk_textarea_1.on('click:append', e => {
+            console.log('"Greetings" - Textarea\'s append, 2022');
+        });
+        window.wkInputs.wk_textarea_1.on('focus', e => {
+            console.log('Focused: ' + e.element.focused);
+        });
+        window.wkInputs.wk_textarea_1.on('blur', e => {
+            console.log('Focused: ' + e.element.focused);
+        });
+        window.wkInputs.wk_textarea_1.on('keydown', e => {
+            console.log('Key: ' + e.native_event.key);
+        });
+        window.wkInputs.wk_textarea_1.on('keyup', e => {
+            console.log('Released: ' + e.native_event.key);
+        });
+        window.wkInputs.wk_textarea_1.on('input', e => {
+            console.log('Value: ' + e.element.value);
+        });
 
-        window.wkInputs.select.on('change', function(e){
-            console.log(e);
+        window.wkInputs.wk_textarea_1.addRule(v => {
+            if(v.length == 0 || v == '') return;
+            if(v.length > 127) return 'Zbyt wiele znaków, max 127 proszę';
+            return true;
         });
-        window.wkInputs.select.addRule(function(v){
-            return v == 'pl';
+
+        // WkRadio
+        window.wkInputs.wk_radio_1.on('change', e => {
+            console.log(e.element.value);
         })
-         
+
+        window.wkInputs.wk_radio_2.addRule(v => {
+            if(v == 'radio2') return 'Dwójka akurat nie';
+            return true;
+        });
+
+        // WkCheckbox
+        window.wkInputs.wk_checkbox_a1.on('change', e => {
+            console.log('Checkbox A1 says ' + e.element.value);
+        })
+        window.wkInputs.wk_checkbox_a2.on('change', e => {
+            console.log('Checkbox A2 says ' + e.element.value);
+        })
+
+        window.wkInputs.wk_checkbox_a1.addRule(v => {
+            if(v == 'nie') return 'Proszę się zgodzić';
+            return true;
+        });
+        window.wkInputs.wk_checkbox_a2.addRule(v => {
+            if(v == 'tak') return 'Proszę się nie zgadzać';
+            return true;
+        });
+
+        // WkSelect
+        window.wkInputs.wk_select_1.on('click', e => {
+            console.log(e);
+            console.log(e.element.focused);
+            console.log(e.element.disabled);
+        })
+        window.wkInputs.wk_select_1.on('focus', e => {
+            console.log(e.element.focused);
+        })
+        window.wkInputs.wk_select_1.on('blur', e => {
+            console.log(e.element.focused);
+        })
+        window.wkInputs.wk_select_1.on('change', e => {
+            console.log(e.element.value);
+        })
+
+        window.wkInputs.wk_select_1.addRule(v => {
+            if(v == 'piwo') return 'Nieletnim alkoholu nie sprzedajemy';
+            return true;
+        });
+
     </script>
 </body>
 </html>
