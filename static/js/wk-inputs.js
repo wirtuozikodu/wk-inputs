@@ -399,6 +399,9 @@ class WkTextField extends WkInput {
 
         // mounting
         this._value = this._el.value;
+        if (this._value.length > 0) {
+            this.hidePlaceholder();
+        }
     }
 
     // gettery
@@ -475,13 +478,15 @@ class WkTextField extends WkInput {
         }
     }
     set valid(state) {
-        if (state !== true) state = false;
+        if (state !== true && state !== null) state = false;
         if (state === this.valid) return;
         this._valid = state;
-        if (state === true || state === null) {
-            this._main_wrapper_el.classList.remove("wk-text-field--invalid");
-        } else {
+        if (state === false) {
             this._main_wrapper_el.classList.add("wk-text-field--invalid");
+        } else {
+            this._main_wrapper_el.classList.remove("wk-text-field--invalid");
+            this.hideErrorMessage();
+            this.showHint();
         }
     }
 
@@ -601,6 +606,9 @@ class WkTextarea extends WkInput {
         // mounting
         this._value = this._el.value;
         this.handleAutogrow();
+        if (this._value.length > 0) {
+            this.hidePlaceholder();
+        }
     }
 
     // gettery
@@ -683,13 +691,15 @@ class WkTextarea extends WkInput {
         }
     }
     set valid(state) {
-        if (state !== true) state = false;
+        if (state !== true && state !== null) state = false;
         if (state === this.valid) return;
         this._valid = state;
-        if (state === true || state === null) {
-            this._main_wrapper_el.classList.remove("wk-textarea--invalid");
-        } else {
+        if (state === false) {
             this._main_wrapper_el.classList.add("wk-textarea--invalid");
+        } else {
+            this._main_wrapper_el.classList.remove("wk-textarea--invalid");
+            this.hideErrorMessage();
+            this.showHint();
         }
     }
     set rows(n) {
@@ -787,7 +797,7 @@ class WkRadio extends WkInput {
         wkInputs.__eventBus.on("wk-radio:change", data => {
             if (data.input_id !== this.id && data.name === this._name) this.value = data.value;
         });
-        this._value = opts.value || "";
+        this.value = opts.value || "";
     }
 
     // gettery
@@ -831,7 +841,7 @@ class WkRadio extends WkInput {
 
         wkInputs.__inputGroups.emit(this._name + ":change", {
             value: this._true_value,
-            input: this
+            element: this
         });
 
         this.emit("change", {
@@ -860,6 +870,8 @@ class WkRadio extends WkInput {
         this._valid = state;
         if (state) {
             this.el.classList.remove("wk-radio-button--invalid");
+            this.hideErrorMessage();
+            this.showHint();
         } else {
             this.el.classList.add("wk-radio-button--invalid");
         }
@@ -958,7 +970,7 @@ class WkCheckbox extends WkInput {
             )
                 this.value = this.false_value;
         });
-        this._value = opts.value || "";
+        this.value = opts.value || "";
         if (this._ignore_label_click === true) {
             this._label_el.classList.add("wk-checkbox__label--inactive");
         }
@@ -1034,7 +1046,7 @@ class WkCheckbox extends WkInput {
             value: this.multiple
                 ? wkInputs.__inputGroups.getCheckboxGroupValue(this.name)
                 : this.value,
-            input: this
+            element: this
         });
         this.emit("change", {
             element: this,
@@ -1074,6 +1086,8 @@ class WkCheckbox extends WkInput {
             } else {
                 this.el.classList.remove("wk-checkbox-button--invalid");
             }
+            this.hideErrorMessage();
+            this.showHint();
         } else {
             if (this.mode === "switch") {
                 this.el.classList.add("wk-checkbox-switch--invalid");
@@ -1201,7 +1215,7 @@ class WkSelect extends WkInput {
             if (this._disabled) return;
 
             this.emit("click", {
-                input: this,
+                element: this,
                 native_event: ev
             });
 
@@ -1343,6 +1357,8 @@ class WkSelect extends WkInput {
         this._valid = state;
         if (state) {
             this._main_wrapper_el.classList.remove("wk-select--invalid");
+            this.hideErrorMessage();
+            this.showHint();
         } else {
             this._main_wrapper_el.classList.add("wk-select--invalid");
         }
@@ -1405,6 +1421,7 @@ class WkSelect extends WkInput {
         if (this.optslist === null || this.items_list_opened === true) return;
         document.body.appendChild(this.optslist);
         this.optslist.style.width = this.main_wrapper_el.offsetWidth + "px";
+        this.optslist.style.zIndex = this.getMaxZIndex() + 5;
         this._popper = Popper.createPopper(this.main_wrapper_el, this.optslist, {
             placement: "bottom",
             strategy: "absolute",
@@ -1500,5 +1517,18 @@ class WkSelect extends WkInput {
                 this._current_focused_item.scrollIntoView({ behavior: "smooth" });
             }, 10);
         }
+    }
+
+    getMaxZIndex(element) {
+        let children_array = element
+            ? element.querySelectorAll("*")
+            : document.querySelectorAll("body *");
+
+        return Math.max(
+            ...Array.from(children_array, el =>
+                parseFloat(window.getComputedStyle(el).zIndex)
+            ).filter(zIndex => !Number.isNaN(zIndex)),
+            0
+        );
     }
 }
