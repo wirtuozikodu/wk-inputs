@@ -783,7 +783,7 @@ class WkRadio extends WkInput {
         this._disabled = !!(this._el.getAttribute("disabled") !== null);
         this._true_value = opts.true_value || true;
         this._name = opts.name || "unknown";
-        this._silent_change = false;
+        this._dont_emit_events_on_next_value_change = false;
 
         // eventy wewnętrzne
         this._label_el.addEventListener("click", () => {
@@ -798,9 +798,12 @@ class WkRadio extends WkInput {
         wkInputs.__eventBus.on("wk-radio:change", data => {
             if (data.input_id === this.id) return;
             if (data.name !== this._name) return;
-            this._silent_change = true;
+            this._dont_emit_events_on_next_value_change = true;
             this.value = data.value;
         });
+
+        // initial value set bez eventów
+        this._dont_emit_events_on_next_value_change = true;
         this.value = opts.value || "";
     }
 
@@ -844,17 +847,15 @@ class WkRadio extends WkInput {
         }
         this.validate();
 
-        console.log(this.id + ": " + this._silent_change);
-
-        if (this._silent_change !== true) {
+        if (this._dont_emit_events_on_next_value_change !== true) {
             wkInputs.__eventBus.emit("wk-radio:change", {
                 input_id: this.id,
                 name: this.name,
-                value: this.true_value
+                value: this.value
             });
 
             wkInputs.__inputGroups.emit(this._name + ":change", {
-                value: this._true_value,
+                value: this.value,
                 element: this
             });
 
@@ -862,9 +863,9 @@ class WkRadio extends WkInput {
                 element: this,
                 state: this.value
             });
+        } else {
+            this._dont_emit_events_on_next_value_change = false;
         }
-
-        this._silent_change = false;
     }
     set disabled(state) {
         if (state !== true) state = false;
