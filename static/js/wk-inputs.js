@@ -797,6 +797,15 @@ class WkRadio extends WkInput {
         wkInputs.__eventBus.on("wk-radio:change", data => {
             if (data.input_id !== this.id && data.name === this._name) this.value = data.value;
         });
+        wkInputs.__inputGroups.on(this._name + ":change", data => {
+            this._value = data.value;
+            if (this.selected) {
+                this.el.classList.add("wk-radio-button--checked");
+            } else {
+                this.el.classList.remove("wk-radio-button--checked");
+            }
+            this.validate();
+        });
         this.value = opts.value || "";
     }
 
@@ -840,7 +849,7 @@ class WkRadio extends WkInput {
         this.validate();
 
         wkInputs.__inputGroups.emit(this._name + ":change", {
-            value: this._true_value,
+            value: this._value,
             element: this
         });
 
@@ -854,7 +863,6 @@ class WkRadio extends WkInput {
         if (state === this.disabled) return;
         this._disabled = state;
         if (state) {
-            this.value = undefined;
             this._main_wrapper_el.classList.add("wk-radio--disabled");
             this.el.classList.add("wk-radio-button--disabled");
             this.el.setAttribute("disabled", true);
@@ -1058,7 +1066,6 @@ class WkCheckbox extends WkInput {
         if (state === this.disabled) return;
         this._disabled = state;
         if (state) {
-            this.value = undefined;
             this._main_wrapper_el.classList.add("wk-checkbox--disabled");
             if (this.mode === "switch") {
                 this.el.classList.add("wk-checkbox-switch--disabled");
