@@ -783,6 +783,7 @@ class WkRadio extends WkInput {
         this._disabled = !!(this._el.getAttribute("disabled") !== null);
         this._true_value = opts.true_value || true;
         this._name = opts.name || "unknown";
+        this._silent_change = false;
 
         // eventy wewnętrzne
         this._label_el.addEventListener("click", () => {
@@ -795,16 +796,10 @@ class WkRadio extends WkInput {
         // mounting
         wkInputs.__inputGroups.register(this._name, this);
         wkInputs.__eventBus.on("wk-radio:change", data => {
-            if (data.input_id !== this.id && data.name === this._name) this.value = data.value;
-        });
-        wkInputs.__inputGroups.on(this._name + ":change", data => {
-            this._value = data.value;
-            if (this.selected) {
-                this.el.classList.add("wk-radio-button--checked");
-            } else {
-                this.el.classList.remove("wk-radio-button--checked");
-            }
-            this.validate();
+            if (data.input_id === this.id) return;
+            if (data.name !== this._name) return;
+            this._silent_change = true;
+            this.value = data.value;
         });
         this.value = opts.value || "";
     }
@@ -841,6 +836,7 @@ class WkRadio extends WkInput {
     // settery
     set value(v) {
         this._value = v;
+
         if (this.selected) {
             this.el.classList.add("wk-radio-button--checked");
         } else {
@@ -848,15 +844,27 @@ class WkRadio extends WkInput {
         }
         this.validate();
 
-        wkInputs.__inputGroups.emit(this._name + ":change", {
-            value: this._value,
-            element: this
-        });
+        console.log(this.id + ": " + this._silent_change);
 
-        this.emit("change", {
-            element: this,
-            state: this.value
-        });
+        if (this._silent_change !== true) {
+            wkInputs.__eventBus.emit("wk-radio:change", {
+                input_id: this.id,
+                name: this.name,
+                value: this.true_value
+            });
+
+            wkInputs.__inputGroups.emit(this._name + ":change", {
+                value: this._true_value,
+                element: this
+            });
+
+            this.emit("change", {
+                element: this,
+                state: this.value
+            });
+        }
+
+        this._silent_change = false;
     }
     set disabled(state) {
         if (state !== true) state = false;
@@ -906,12 +914,6 @@ class WkRadio extends WkInput {
     toggle() {
         if (!this.selected && !this.disabled) {
             this.value = this.true_value;
-
-            wkInputs.__eventBus.emit("wk-radio:change", {
-                input_id: this.id,
-                name: this.name,
-                value: this.true_value
-            });
         }
     }
 }
