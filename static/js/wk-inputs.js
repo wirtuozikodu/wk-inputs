@@ -139,6 +139,7 @@ class WkInput extends WkInputsEventBus {
         // base setup
         this._id = opts.id;
         this._wk_input = document.querySelector('.wk-input[data-inputid="' + this._id + '"]');
+        this._inited = false;
 
         this._rules = [];
         this._value = opts.value || "";
@@ -194,6 +195,9 @@ class WkInput extends WkInputsEventBus {
     }
     get hint() {
         return this._hint;
+    }
+    get inited() {
+        return this._inited;
     }
 
     // setters
@@ -402,6 +406,7 @@ class WkTextField extends WkInput {
         if (this._value.length > 0) {
             this.hidePlaceholder();
         }
+        this._inited = true;
     }
 
     // gettery
@@ -609,6 +614,7 @@ class WkTextarea extends WkInput {
         if (this._value.length > 0) {
             this.hidePlaceholder();
         }
+        this._inited = true;
     }
 
     // gettery
@@ -805,6 +811,7 @@ class WkRadio extends WkInput {
         // initial value set bez eventów
         this._dont_emit_events_on_next_value_change = true;
         this.value = opts.value || "";
+        this._inited = true;
     }
 
     // gettery
@@ -985,6 +992,7 @@ class WkCheckbox extends WkInput {
         if (this._ignore_label_click === true) {
             this._label_el.classList.add("wk-checkbox__label--inactive");
         }
+        this._inited = true;
     }
 
     // gettery
@@ -1259,7 +1267,8 @@ class WkSelect extends WkInput {
         // mounting
         if (opts.items != undefined) this.items = opts.items;
         else this.items = [];
-        this._value = this.el.getAttribute("data-value") || "";
+        this.value = this.el.getAttribute("data-value") || "";
+        this._inited = true;
     }
 
     // gettery
