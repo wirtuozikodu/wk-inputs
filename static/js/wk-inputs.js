@@ -1223,6 +1223,7 @@ class WkSelect extends WkInput {
         this._optslist = null;
         this._popper = null;
         this._items_list_opened = false;
+        this._optslist_last_scroll_position = null;
 
         // eventy wewnętrzne
         document.body.addEventListener("click", e => {
@@ -1324,9 +1325,12 @@ class WkSelect extends WkInput {
 
         const sitem = this._items.find(item => item[this._item_value] == v);
         if (v !== "" && sitem) {
+            this.unmarkSelectedItems();
             this.hidePlaceholder();
             this._selection_el.innerText = sitem[this._item_text];
+            this.markSelectedItem(sitem);
         } else {
+            this.unmarkSelectedItems();
             this.showPlaceholder();
             this._selection_el.innerText = "";
         }
@@ -1415,12 +1419,6 @@ class WkSelect extends WkInput {
             const el = document.createElement("button");
             el.classList.add("wk-select__item");
 
-            if (item[this.item_value] === this.value) {
-                el.classList.add("wk-select__item--selected");
-                el.classList.add("wk-select__item--focused");
-                this._current_focused_item = el;
-            }
-
             el.innerHTML = item[this.item_text];
             el.setAttribute("tabindex", "-1");
             el.setAttribute("data-input", this.id);
@@ -1461,10 +1459,14 @@ class WkSelect extends WkInput {
         });
         this._items_list_opened = true;
         this.icon_el.classList.add("wk-select__icon--active");
+        if (this._optslist_last_scroll_position !== null) {
+            this._optslist.scrollTop = this._optslist_last_scroll_position;
+        }
         this.adjustOptsListScrollToActiveItem();
     }
     closeItemsList() {
         if (this.items_list_opened !== true) return;
+        this._optslist_last_scroll_position = this._optslist.scrollTop;
         this._popper.destroy();
         this._popper = null;
         document.body.removeChild(this.optslist);
@@ -1475,8 +1477,11 @@ class WkSelect extends WkInput {
         if (this.items_list_opened) this.closeItemsList();
         else this.openItemsList();
     }
-    onClickOutside(e) {
-        if (this.items_list_opened) this.closeItemsList();
+    onClickOutside() {
+        if (this.items_list_opened) {
+            this.closeItemsList();
+        }
+        this.focused = false;
     }
 
     focusNextListItem() {
@@ -1513,8 +1518,24 @@ class WkSelect extends WkInput {
         if (item) {
             this.value = value;
             this.closeItemsList();
-            this.renderItems();
             this.main_wrapper_el.focus();
+        }
+    }
+    unmarkSelectedItems() {
+        const items = this._optslist.querySelectorAll(".wk-select__item.wk-select__item--selected");
+        for (let i = 0; i < items.length; i++) {
+            items[i].classList.remove("wk-select__item--selected");
+            items[i].classList.remove("wk-select__item--focused");
+        }
+    }
+    markSelectedItem(item) {
+        const el = this._optslist.querySelector(
+            '.wk-select__item[data-value="' + item[this._item_value] + '"]'
+        );
+        if (el) {
+            el.classList.add("wk-select__item--selected");
+            el.classList.add("wk-select__item--focused");
+            this._current_focused_item = el;
         }
     }
 
@@ -1533,7 +1554,11 @@ class WkSelect extends WkInput {
 
         if (!optionIsVisible(this._current_focused_item, this._optslist)) {
             setTimeout(() => {
-                this._current_focused_item.scrollIntoView({ behavior: "smooth" });
+                this._current_focused_item.scrollIntoView({
+                    behavior: "smooth",
+                    block: "nearest",
+                    inline: "start"
+                });
             }, 10);
         }
     }
