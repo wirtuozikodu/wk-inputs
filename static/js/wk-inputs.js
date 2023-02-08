@@ -1266,6 +1266,12 @@ class WkSelect extends WkInput {
         });
 
         // mounting
+        const mlw = this._el.getAttribute("data-list-min-width");
+        if (mlw && mlw !== "auto") {
+            this._optslist_min_width = mlw;
+        } else {
+            this._optslist_min_width = null;
+        }
         if (opts.items != undefined) this.items = opts.items;
         else this.items = [];
         this.value = this.el.getAttribute("data-value") || "";
@@ -1414,6 +1420,10 @@ class WkSelect extends WkInput {
         optel.setAttribute("data-input", this.id);
         optel.addEventListener("click", e => e.stopPropagation());
 
+        if (this._optslist_min_width != null) {
+            optel.style.minWidth = this._optslist_min_width;
+        }
+
         for (let i = 0; i < this.items.length; i++) {
             const item = this.items[i];
             const el = document.createElement("button");
@@ -1440,7 +1450,7 @@ class WkSelect extends WkInput {
         this.optslist.style.width = this.main_wrapper_el.offsetWidth + "px";
         this.optslist.style.zIndex = this.getMaxZIndex() + 5;
         this._popper = Popper.createPopper(this.main_wrapper_el, this.optslist, {
-            placement: "bottom",
+            placement: "bottom-start",
             strategy: "absolute",
             modifiers: [
                 {
@@ -1452,7 +1462,7 @@ class WkSelect extends WkInput {
                 {
                     name: "flip",
                     options: {
-                        fallbackPlacements: ["top"]
+                        fallbackPlacements: ["top-start"]
                     }
                 }
             ]
